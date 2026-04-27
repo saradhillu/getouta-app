@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GetOuta</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg: #0e0b0b;
+  --surface: #1a1212;
+  --surface2: #231818;
+  --burgundy: #7c1f2e;
+  --burgundy-light: #9e2a3d;
+  --burgundy-pale: #2a1318;
+  --cream: #f5ede6;
+  --cream-dim: rgba(245,237,230,0.55);
+  --cream-faint: rgba(245,237,230,0.1);
+  --border: rgba(245,237,230,0.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--cream);
+  min-height: 100vh;
+  max-width: 430px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ===== SPLASH ===== */
+#splash {
+  background: var(--bg);
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.splash-logo {
+  text-align: center;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.splash-wordmark {
+  font-size: 46px;
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.splash-wordmark span { color: var(--burgundy-light); }
+
+.splash-sub {
+  font-size: 11px;
+  color: var(--cream-dim);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+.splash-line {
+  width: 40px;
+  height: 2px;
+  background: var(--burgundy);
+  margin: 0 auto;
+  animation: fadeUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== ONBOARDING ===== */
+#onboarding {
+  background: var(--bg);
+  padding: 64px 28px 48px;
+  justify-content: space-between;
+}
+
+.wordmark {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -0.8px;
+  margin-bottom: 56px;
+}
+
+.wordmark span { color: var(--burgundy-light); }
+
+.onboard-headline {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--cream);
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+}
+
+.onboard-body {
+  font-size: 15px;
+  color: var(--cream-dim);
+  line-height: 1.65;
+  margin-bottom: 40px;
+}
+
+.feature-list { display: flex; flex-direction: column; gap: 14px; }
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--cream-dim);
+}
+
+.feature-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--burgundy-light);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.btn-main {
+  width: 100%;
+  background: var(--burgundy);
+  color: var(--cream);
+  border: none;
+  padding: 18px;
+  border-radius: var(--radius);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: -0.3px;
+}
+
+.btn-main:active { background: var(--burgundy-light); }
+
+.btn-ghost {
+  width: 100%;
+  background: transparent;
+  color: var(--cream-dim);
+  border: none;
+  padding: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+/* ===== PLANNER ===== */
+#planner { background: var(--bg); }
+
+.planner-top {
+  background: var(--surface);
+  padding: 56px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.back {
+  width: 36px;
+  height: 36px;
+  background: var(--cream-faint);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+}
+
+.step-counter {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cream-dim);
+}
+
+.skip-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--cream-dim);
+  cursor: pointer;
+  padding: 4px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.progress-track {
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--burgundy);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.planner-q {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  color: var(--cream);
+}
+
+.planner-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cream-dim);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* VIBE GRID */
+.vibe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.vibe-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 10px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.vibe-tile:active { transform: scale(0.97); }
+
+.vibe-tile.selected {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+}
+
+.vibe-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cream-dim);
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+.vibe-tile.selected .vibe-label { color: var(--cream); }
+
+/* COUNTER */
+.counter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.counter-name { font-size: 15px; font-weight: 600; color: var(--cream); }
+.counter-hint { font-size: 12px; color: var(--cream-dim); margin-top: 2px; }
+
+.counter-ctrl { display: flex; align-items: center; gap: 16px; }
+
+.c-btn {
+  width: 36px;
+  height: 36px;
+  background: var(--burgundy);
+  color: var(--cream);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.c-val {
+  font-size: 22px;
+  font-weight: 800;
+  min-width: 30px;
+  text-align: center;
+  color: var(--cream);
+}
+
+/* CHIPS */
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+
+.chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream-dim);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip.selected {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+  color: var(--cream);
+}
+
+/* OPTIONS */
+.option-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+
+.option-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.option-item.selected {
+  border-color: var(--burgundy);
+  background: var(--burgundy-pale);
+}
+
+.option-text { font-size: 14px; font-weight: 600; color: var(--cream); }
+.option-sub { font-size: 12px; color: var(--cream-dim); margin-top: 2px; }
+
+.check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.option-item.selected .check { background: var(--burgundy); border-color: var(--burgundy); }
+.check-mark { font-size: 11px; display: none; font-weight: 700; color: var(--cream); }
+.option-item.selected .check-mark { display: block; }
+
+/* BUDGET */
+.budget-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.budget-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.budget-tile.selected { background: var(--burgundy); border-color: var(--burgundy); }
+
+.budget-val { font-size: 13px; font-weight: 800; color: var(--cream); }
+.budget-lbl { font-size: 10px; color: var(--cream-dim); margin-top: 3px; font-weight: 500; }
+
+/* TEXTAREA */
+.notes-box {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  color: var(--cream);
+  resize: none;
+  outline: none;
+  min-height: 100px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+}
+
+.notes-box:focus { border-color: var(--burgundy); }
+.notes-box::placeholder { color: rgba(245,237,230,0.2); }
+
+.planner-foot {
+  padding: 16px 24px 36px;
+  background: var(--bg);
+}
+
+/* ===== LOADING ===== */
+#loading {
+  background: var(--bg);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 28px;
+}
+
+.load-wordmark {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--cream);
+  letter-spacing: -1px;
+}
+
+.load-wordmark span { color: var(--burgundy-light); }
+
+.load-bar-wrap {
+  width: 180px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.load-bar {
+  height: 100%;
+  background: var(--burgundy);
+  border-radius: 2px;
+  animation: loadSlide 1.8s ease-in-out infinite;
+}
+
+@keyframes loadSlide {
+  0% { width: 0%; margin-left: 0; }
+  50% { width: 60%; }
+  100% { width: 0%; margin-left: 100%; }
+}
+
+.load-msg { font-size: 15px; color: var(--cream-dim); line-height: 1.6; }
+.load-status { font-size: 11px; color: var(--burgundy-light); letter-spacing: 1.5px; text-transform: uppercase; min-height: 16px; }
+
+/* ===== RESULTS ===== */
+#results { background: var(--bg); }
+
+.results-head {
+  background: var(--surface);
+  padding: 56px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.results-h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+
+.results-meta { font-size: 13px; color: var(--cream-dim); }
+
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+
+.tag {
+  background: var(--burgundy-pale);
+  border: 1px solid var(--burgundy);
+  color: var(--cream-dim);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.results-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+#map {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.stop-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 10px;
+  animation: cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stop-accent { height: 3px; }
+.stop-body { padding: 16px 18px; }
+.stop-time { font-size: 10px; font-weight: 700; color: var(--cream-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+.stop-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; color: var(--cream); margin-bottom: 4px; line-height: 1.3; }
+.stop-area { font-size: 12px; color: var(--cream-dim); margin-bottom: 8px; font-weight: 500; }
+.stop-desc { font-size: 13px; color: var(--cream-dim); line-height: 1.55; margin-bottom: 12px; }
+.stop-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.stop-tag { background: var(--burgundy-pale); border: 1px solid var(--border); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--cream-dim); }
+
+.results-foot {
+  padding: 12px 24px 36px;
+  display: flex;
+  gap: 10px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.btn-share {
+  flex: 1;
+  background: var(--burgundy);
+  color: var(--cream);
+  border: none;
+  padding: 17px;
+  border-radius: var(--radius);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -0.3px;
+}
+
+.btn-reset {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream);
+  padding: 17px 20px;
+  border-radius: var(--radius);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* SHARE SHEET */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  max-width: 430px;
+  margin: 0 auto;
+  align-items: flex-end;
+}
+
+.overlay.open { display: flex; }
+
+.sheet {
+  background: var(--surface);
+  border-radius: 24px 24px 0 0;
+  padding: 20px 24px 44px;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  animation: sheetUp 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.sheet-handle { width: 36px; height: 3px; background: var(--border); border-radius: 2px; margin: 0 auto 24px; }
+.sheet-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 24px; color: var(--cream); }
+
+.share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+
+.share-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+
+.share-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.share-lbl { font-size: 11px; color: var(--cream-dim); font-weight: 600; }
+
+.link-row {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link-text { font-size: 13px; color: var(--cream-dim); }
+
+.copy-btn {
+  background: var(--burgundy);
+  color: var(--cream);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div class="screen active" id="splash">
+  <div class="splash-logo">
+    <div class="splash-wordmark">Get<span>Outa</span></div>
+    <div class="splash-sub">London Experiences</div>
+  </div>
+  <div class="splash-line"></div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="screen" id="onboarding">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+    <div class="wordmark">Get<span>Outa</span></div>
+    <div class="onboard-headline">Plan your perfect London day.</div>
+    <div class="onboard-body">Tell us what you're after and we'll build a full itinerary — real venues, timings, everything sorted.</div>
+    <div class="feature-list">
+      <div class="feature-item"><div class="feature-dot"></div>Personalised to your vibe and group</div>
+      <div class="feature-item"><div class="feature-dot"></div>Real London venues with timings</div>
+      <div class="feature-item"><div class="feature-dot"></div>Share the plan with your crew</div>
+    </div>
+  </div>
+  <div>
+    <button class="btn-main" onclick="goPlanner()">Start planning</button>
+    <button class="btn-ghost">Sign in</button>
+  </div>
+</div>
+
+<!-- PLANNER -->
+<div class="screen" id="planner">
+  <div class="planner-top">
+    <div class="nav-row">
+      <button class="back" id="back-btn" onclick="prevStep()">←</button>
+      <span class="step-counter" id="step-label">1 of 4</span>
+      <button class="skip-btn" onclick="nextStep()">Skip</button>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress" style="width:25%"></div>
+    </div>
+    <div class="planner-q" id="planner-q">What's the vibe?</div>
+  </div>
+
+  <div class="planner-body">
+    <!-- STEP 1 -->
+    <div id="s1">
+      <div class="vibe-grid">
+        <div class="vibe-tile" onclick="toggleVibe(this,'Romantic')"><div class="vibe-label">Romantic</div></div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Trendy')"><div class="vibe-label">Hot & Trendy</div></div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Fun')"><div class="vibe-label">Fun</div></div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Adventurous')"><div class="vibe-label">Adventurous</div></div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Casual')"><div class="vibe-label">Casual</div></div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Cultural')"><div class="vibe-label">Cultural</div></div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="s2" style="display:none">
+      <div class="section-title">Group size</div>
+      <div class="counter-card">
+        <div>
+          <div class="counter-name">People</div>
+          <div class="counter-hint">Including yourself</div>
+        </div>
+        <div class="counter-ctrl">
+          <button class="c-btn" onclick="changeCount(-1)">−</button>
+          <div class="c-val" id="count-val">2</div>
+          <button class="c-btn" onclick="changeCount(1)">+</button>
+        </div>
+      </div>
+      <div class="section-title">Dietary requirements</div>
+      <div class="chip-wrap">
+        <div class="chip" onclick="toggleChip(this)">None</div>
+        <div class="chip" onclick="toggleChip(this)">Vegetarian</div>
+        <div class="chip" onclick="toggleChip(this)">Vegan</div>
+        <div class="chip" onclick="toggleChip(this)">Gluten-free</div>
+        <div class="chip" onclick="toggleChip(this)">Halal</div>
+        <div class="chip" onclick="toggleChip(this)">Kosher</div>
+        <div class="chip" onclick="toggleChip(this)">Nut allergy</div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="s3" style="display:none">
+      <div class="section-title">When are you going?</div>
+      <div class="option-list">
+        <div class="option-item" onclick="selectOption(this,'timing')">
+          <div><div class="option-text">Daytime</div><div class="option-sub">12pm – 6pm</div></div>
+          <div class="check"><span class="check-mark">✓</span></div>
+        </div>
+        <div class="option-item" onclick="selectOption(this,'timing')">
+          <div><div class="option-text">Evening</div><div class="option-sub">6pm – 10pm</div></div>
+          <div class="check"><span class="check-mark">✓</span></div>
+        </div>
+        <div class="option-item" onclick="selectOption(this,'timing')">
+          <div><div class="option-text">Night out</div><div class="option-sub">10pm – late</div></div>
+          <div class="check"><span class="check-mark">✓</span></div>
+        </div>
+        <div class="option-item" onclick="selectOption(this,'timing')">
+          <div><div class="option-text">All day</div><div class="option-sub">Full day adventure</div></div>
+          <div class="check"><span class="check-mark">✓</span></div>
+        </div>
+      </div>
+      <div class="section-title">Budget per person</div>
+      <div class="budget-row">
+        <div class="budget-tile" onclick="selectBudget(this,'free')">
+          <div class="budget-val">Free</div>
+          <div class="budget-lbl">£0</div>
+        </div>
+        <div class="budget-tile" onclick="selectBudget(this,'budget')">
+          <div class="budget-val">£</div>
+          <div class="budget-lbl">Under £20</div>
+        </div>
+        <div class="budget-tile" onclick="selectBudget(this,'mid')">
+          <div class="budget-val">££</div>
+          <div class="budget-lbl">£20–50</div>
+        </div>
+        <div class="budget-tile" onclick="selectBudget(this,'splurge')">
+          <div class="budget-val">£££</div>
+          <div class="budget-lbl">£50+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="s4" style="display:none">
+      <div class="section-title">Location preference</div>
+      <div class="chip-wrap">
+        <div class="chip" onclick="toggleChip(this,true)">Anywhere</div>
+        <div class="chip" onclick="toggleChip(this,true)">Central London</div>
+        <div class="chip" onclick="toggleChip(this,true)">East London</div>
+        <div class="chip" onclick="toggleChip(this,true)">South London</div>
+        <div class="chip" onclick="toggleChip(this,true)">North London</div>
+        <div class="chip" onclick="toggleChip(this,true)">West London</div>
+      </div>
+      <div class="section-title">Anything else?</div>
+      <textarea class="notes-box" id="notes" placeholder="Special requests, accessibility needs, or anything else..."></textarea>
+    </div>
+  </div>
+
+  <div class="planner-foot">
+    <button class="btn-main" id="next-btn" onclick="nextStep()">Continue</button>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="loading">
+  <div class="load-wordmark">Get<span>Outa</span></div>
+  <div class="load-bar-wrap"><div class="load-bar"></div></div>
+  <div class="load-msg">Building your perfect<br>London itinerary...</div>
+  <div class="load-status" id="load-status">Finding the best spots</div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="results">
+  <div class="results-head">
+    <div class="results-nav">
+      <button class="back" onclick="resetApp()">←</button>
+      <button class="btn-share" style="width:auto;padding:10px 18px;font-size:13px;" onclick="openShare()">Share</button>
+    </div>
+    <div class="results-h1">Your Plan</div>
+    <div class="results-meta" id="results-meta">London · Tonight</div>
+    <div class="tag-row" id="results-tags"></div>
+  </div>
+  <div class="results-body">
+    <div id="map"></div>
+    <div id="stop-cards"></div>
+  </div>
+  <div class="results-foot">
+    <button class="btn-share" onclick="openShare()">Share with friends</button>
+    <button class="btn-reset" onclick="resetApp()">↺</button>
+  </div>
+</div>
+
+<!-- SHARE OVERLAY -->
+<div class="overlay" id="share-overlay" onclick="closeShare(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Share your plan</div>
+    <div class="share-grid">
+      <div class="share-item"><div class="share-icon">💬</div><div class="share-lbl">WhatsApp</div></div>
+      <div class="share-item"><div class="share-icon">📸</div><div class="share-lbl">Instagram</div></div>
+      <div class="share-item"><div class="share-icon">✉️</div><div class="share-lbl">Email</div></div>
+      <div class="share-item"><div class="share-icon">🔗</div><div class="share-lbl">Copy link</div></div>
+    </div>
+    <div class="link-row">
+      <span class="link-text">getouta.app/plan/london-xyz</span>
+      <button class="copy-btn" onclick="copyLink()">Copy</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let step = 1, vibes = [], groupSize = 2, budget = '', timing = '';
+const MAPS_API_KEY = 'AIzaSyDdBw55GNMJna62gTLQQjNys9k0PZlM_Ac';
+
+setTimeout(() => showScreen('onboarding'), 2000);
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goPlanner() { showScreen('planner'); setStep(1); }
+
+function setStep(n) {
+  step = n;
+  for (let i = 1; i <= 4; i++) document.getElementById('s' + i).style.display = i === n ? 'block' : 'none';
+  document.getElementById('step-label').textContent = n + ' of 4';
+  document.getElementById('progress').style.width = (n / 4 * 100) + '%';
+  const qs = ["What's the vibe?", "Who's coming?", "When and budget?", "Final details"];
+  document.getElementById('planner-q').textContent = qs[n - 1];
+  document.getElementById('next-btn').textContent = n < 4 ? 'Continue' : 'Generate my plan';
+}
+
+function nextStep() { if (step < 4) setStep(step + 1); else generateItinerary(); }
+function prevStep() { if (step > 1) setStep(step - 1); else showScreen('onboarding'); }
+
+function toggleVibe(el, v) {
+  el.classList.toggle('selected');
+  vibes = vibes.includes(v) ? vibes.filter(x => x !== v) : [...vibes, v];
+}
+
+function changeCount(d) {
+  groupSize = Math.max(1, Math.min(20, groupSize + d));
+  document.getElementById('count-val').textContent = groupSize;
+}
+
+function toggleChip(el, single = false) {
+  if (single) el.closest('.chip-wrap').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.toggle('selected');
+}
+
+function selectOption(el, group) {
+  el.closest('.option-list').querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  if (group === 'timing') timing = el.querySelector('.option-text').textContent;
+}
+
+function selectBudget(el, val) {
+  document.querySelectorAll('.budget-tile').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  budget = val;
+}
+
+async function generateItinerary() {
+  showScreen('loading');
+  const dietary = [...document.querySelectorAll('#s2 .chip.selected')].map(c => c.textContent).join(', ') || 'none';
+  const location = document.querySelector('#s4 .chip.selected')?.textContent || 'Anywhere in London';
+  const notes = document.getElementById('notes').value;
+  const vibeStr = vibes.length ? vibes.join(', ') : 'casual, fun';
+
+  const statuses = ['Finding the best spots', 'Checking availability', 'Matching your vibe', 'Building the route', 'Almost there'];
+  let si = 0;
+  const interval = setInterval(() => {
+    document.getElementById('load-status').textContent = statuses[++si % statuses.length];
+  }, 1800);
+
+  const prompt = `You are GetOuta, a London activity planner for 18-25 year olds.
+Create a ${timing || 'evening'} itinerary for ${groupSize} people in London.
+Vibe: ${vibeStr}. Budget: ${budget || 'mid'} per person. Dietary: ${dietary}. Location: ${location}. Notes: ${notes || 'none'}.
+Return ONLY a valid JSON array of exactly 3 stops:
+[{"time":"7:00 PM","name":"Exact venue name","area":"Neighbourhood, London","address":"Full street address","description":"2 sentences on what to do and why it fits the vibe","tags":["tag1","tag2","tag3"],"color":"#hexcolor"}]
+Use real currently open London venues. Return ONLY the JSON array, no markdown.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1200,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    clearInterval(interval);
+    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const stops = JSON.parse(text.replace(/```json|```/g, '').trim());
+    renderResults(stops, vibeStr);
+  } catch (e) {
+    clearInterval(interval);
+    renderResults([
+      { time: "6:00 PM", name: "Dishoom Shoreditch", area: "Shoreditch", address: "7 Boundary St, London E2 7JE", description: "Start with iconic Bombay-style small plates in a stunning converted warehouse. The buzzing atmosphere sets the perfect tone.", tags: ["Food", "Trendy", "££"], color: "#7c1f2e" },
+      { time: "8:30 PM", name: "Boxpark Shoreditch", area: "Shoreditch", address: "2-10 Bethnal Green Rd, London E1 6GY", description: "Explore pop-up bars and street food in this iconic shipping container venue. Great for drinks and casual mingling.", tags: ["Drinks", "Casual", "£"], color: "#9e2a3d" },
+      { time: "10:30 PM", name: "XOYO", area: "Shoreditch", address: "32-37 Cowper St, London EC2A 4AP", description: "End the night at one of London's best club venues with quality DJ sets across two floors.", tags: ["Club", "Music", "££"], color: "#5a1520" }
+    ], vibeStr);
+  }
+}
+
+function renderResults(stops, vibeStr) {
+  document.getElementById('results-meta').textContent = `London · ${timing || 'Tonight'}`;
+  document.getElementById('results-tags').innerHTML = vibeStr.split(',').map(v => `<span class="tag">${v.trim()}</span>`).join('');
+  document.getElementById('stop-cards').innerHTML = stops.map((s, i) => `
+    <div class="stop-card" style="animation-delay:${i * 0.12}s">
+      <div class="stop-accent" style="background:${s.color}"></div>
+      <div class="stop-body">
+        <div class="stop-time">${s.time}</div>
+        <div class="stop-name">${s.name}</div>
+        <div class="stop-area">${s.area}</div>
+        <div class="stop-desc">${s.description}</div>
+        <div class="stop-tags">${s.tags.map(t => `<span class="stop-tag">${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+  loadMap(stops);
+  showScreen('results');
+}
+
+function loadMap(stops) {
+  const mapEl = document.getElementById('map');
+  if (MAPS_API_KEY === 'AIzaSyDdBw55GNMJna62gTLQQjNys9k0PZlM_Ac') {
+    mapEl.innerHTML = `<div style="height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;">
+      <div style="font-size:13px;font-weight:600;color:rgba(245,237,230,0.4);">Add your Google Maps API key</div>
+      <div style="font-size:11px;color:rgba(245,237,230,0.2);">to see the route map</div></div>`;
+    return;
+  }
+  if (!window.google) {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_API_KEY}&callback=initMap`;
+    script.async = true;
+    window.initMap = () => renderGoogleMap(stops);
+    document.head.appendChild(script);
+  } else renderGoogleMap(stops);
+}
+
+function renderGoogleMap(stops) {
+  const map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: { lat: 51.5074, lng: -0.1278 },
+    styles: [
+      { elementType: 'geometry', stylers: [{ color: '#1a1212' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#f5ede6' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1212' }] },
+      { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#2a1a1a' }] },
+      { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#3a2020' }] },
+      { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e0b0b' }] },
+      { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+    ],
+    disableDefaultUI: true
+  });
+
+  const geocoder = new google.maps.Geocoder();
+  const bounds = new google.maps.LatLngBounds();
+  const positions = [];
+
+  stops.forEach((stop, i) => {
+    geocoder.geocode({ address: stop.address + ', London, UK' }, (results, status) => {
+      if (status !== 'OK') return;
+      const pos = results[0].geometry.location;
+      bounds.extend(pos);
+      positions[i] = pos;
+
+      new google.maps.Marker({
+        position: pos, map,
+        label: { text: String(i + 1), color: '#f5ede6', fontFamily: 'Plus Jakarta Sans', fontWeight: '700', fontSize: '12px' },
+        icon: { path: google.maps.SymbolPath.CIRCLE, scale: 16, fillColor: stop.color || '#7c1f2e', fillOpacity: 1, strokeColor: '#f5ede6', strokeWeight: 1.5 }
+      });
+
+      map.fitBounds(bounds);
+
+      if (positions.filter(Boolean).length === stops.length) {
+        const dir = new google.maps.DirectionsService();
+        const render = new google.maps.DirectionsRenderer({
+          map, suppressMarkers: true,
+          polylineOptions: { strokeColor: '#7c1f2e', strokeWeight: 2, strokeOpacity: 0.7 }
+        });
+        dir.route({
+          origin: positions[0],
+          destination: positions[positions.length - 1],
+          waypoints: positions.slice(1, -1).map(p => ({ location: p, stopover: false })),
+          travelMode: google.maps.TravelMode.WALKING
+        }, (result, status) => { if (status === 'OK') render.setDirections(result); });
+      }
+    });
+  });
+}
+
+function openShare() { document.getElementById('share-overlay').classList.add('open'); }
+function closeShare(e) { if (e.target.classList.contains('overlay')) document.getElementById('share-overlay').classList.remove('open'); }
+function copyLink() {
+  navigator.clipboard.writeText('https://getouta.app/plan/london-xyz');
+  document.querySelector('.copy-btn').textContent = 'Copied';
+  setTimeout(() => document.querySelector('.copy-btn').textContent = 'Copy', 2000);
+}
+
+function resetApp() {
+  vibes = []; groupSize = 2; budget = ''; timing = '';
+  document.getElementById('notes').value = '';
+  document.querySelectorAll('.vibe-tile.selected,.chip.selected,.budget-tile.selected,.option-item.selected').forEach(el => el.classList.remove('selected'));
+  document.getElementById('count-val').textContent = '2';
+  goPlanner();
+}
+</script>
+</body>
+</html>
