@@ -1008,17 +1008,16 @@ function renderGoogleMap(stops) {
       map.fitBounds(bounds);
 
       if (positions.filter(Boolean).length === stops.length && stops.length > 1) {
-        new google.maps.DirectionsRenderer({
+        const renderer = new google.maps.DirectionsRenderer({
           map, suppressMarkers: true,
           polylineOptions: { strokeColor: '#7c1f2e', strokeWeight: 2, strokeOpacity: 0.6 }
-        }).setDirections(await new Promise(resolve => {
-          new google.maps.DirectionsService().route({
-            origin: positions[0],
-            destination: positions[positions.length - 1],
-            waypoints: positions.slice(1, -1).map(p => ({ location: p, stopover: false })),
-            travelMode: google.maps.TravelMode.WALKING
-          }, (result, s) => s === 'OK' && resolve(result));
-        }));
+        });
+        new google.maps.DirectionsService().route({
+          origin: positions[0],
+          destination: positions[positions.length - 1],
+          waypoints: positions.slice(1, -1).map(p => ({ location: p, stopover: false })),
+          travelMode: google.maps.TravelMode.WALKING
+        }, (result, s) => { if (s === 'OK') renderer.setDirections(result); });
       }
     });
   });
