@@ -620,25 +620,32 @@ function sendAiMsg() {
 
 async function fetchVenues() {
   const halal = [...document.querySelectorAll('#s2 .chip.selected')].some(c=>c.textContent==='Halal');
-  const kosher = [...document.querySelectorAll('#s2 .chip.selected')].some(c=>c.textContent==='Kosher');
-  const location = document.querySelector('#s4 .chip.selected')?.textContent || '';
+  const location = document.querySelector('#s4 .chip.selected')?.textContent || 'Anywhere';
   const areaMap = {
-    'North London':'Camden,Islington,Hackney,Highgate,Finsbury Park,Stoke Newington,Dalston',
-    'East London':'Shoreditch,Bethnal Green,Hackney,Stratford,Walthamstow,Spitalfields,London Fields',
-    'South London':'Brixton,Peckham,Clapham,Borough,Bermondsey,Greenwich,Lewisham,Herne Hill',
-    'West London':'Notting Hill,Chelsea,Fulham,Chiswick,Richmond,Hammersmith,Kensington',
-    'Central London':'Mayfair,Soho,Covent Garden,Fitzrovia,Marylebone,Westminster,Knightsbridge'
+    'North London': ['camden','islington','hackney','highgate','finsbury park','stoke newington','dalston','crouch end','wood green','holloway','archway','tufnell park','kentish town','primrose hill','muswell hill','alexandra palace','walthamstow'],
+    'East London': ['shoreditch','bethnal green','stratford','spitalfields','london fields','hackney wick','dalston','clapton','leyton','walthamstow','bow','mile end','stepney','whitechapel','brick lane'],
+    'South London': ['brixton','peckham','clapham','borough','bermondsey','greenwich','lewisham','herne hill','balham','tooting','streatham','dulwich','crystal palace','stockwell','vauxhall','waterloo'],
+    'West London': ['notting hill','chelsea','fulham','chiswick','richmond','hammersmith','kensington','shepherd bush','ealing','acton','brentford','twickenham','putney','barnes','wimbledon'],
+    'Central London': ['mayfair','soho','covent garden','fitzrovia','marylebone','westminster','knightsbridge','belgravia','pimlico','victoria','oxford street','piccadilly','bloomsbury','holborn','farringdon','barbican','city of london']
   };
-  let url = `${SUPABASE_URL}/rest/v1/venues?active=eq.true&limit=60`;
+
+  let url = `${SUPABASE_URL}/rest/v1/venues?active=eq.true&limit=200`;
   if(halal) url += `&halal=eq.true`;
+
   try {
-    const res = await fetch(url, {headers:{'apikey':SUPABASE_ANON,'Authorization':`Bearer ${SUPABASE_ANON}`}});
+    const res = await fetch(url, {headers:{'apikey':SUPABASE_ANON,'Authorization':'Bearer ' + SUPABASE_ANON}});
     const all = await res.json();
-    const areaFilter = areaMap[location];
-    if(areaFilter && !location.includes('Anywhere')) {
-      const areas = areaFilter.split(',').map(a=>a.toLowerCase());
-      const filtered = all.filter(v=>areas.some(a=>(v.area||'').toLowerCase().includes(a)));
-      return filtered.length>=5 ? filtered : all;
+
+    // Strict area filtering — only return venues from the selected area
+    const areaKeywords = areaMap[location];
+    if(areaKeywords && !location.includes('Anywhere')) {
+      const filtered = all.filter(v => {
+        const venueArea = (v.area || '').toLowerCase();
+        const venueAddr = (v.address || '').toLowerCase();
+        return areaKeywords.some(k => venueArea.includes(k) || venueAddr.includes(k));
+      });
+      // Only fall back if truly nothing found
+      return filtered.length >= 3 ? filtered : all;
     }
     return all;
   } catch(e) { return []; }
@@ -680,36 +687,109 @@ Category must be: restaurant, bar, activity, cafe, cinema, or outdoor
 Return ONLY the JSON array.`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:prompt}]})
+    const res = await fetch('https://wzldwcbixzzrvqybtzng.supabase.co/functions/v1/generate-itinerary', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_ANON },
+      body: JSON.stringify({ venues, vibes: vibeStr, timing: timeStr, budget: budget||'mid', dietary, location, groupSize, notes: notesStr })
     });
     const data = await res.json();
     clearInterval(interval);
-    const text = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
-    const stops = JSON.parse(text.replace(/```json|```/g,'').trim());
-    renderResults(stops,vibeStr,timeStr);
+    if (data.stops) {
+      renderResults(data.stops, vibeStr, timeStr);
+    } else {
+      renderResults(smartPick(venues, vibeStr, timeStr, budget), vibeStr, timeStr);
+    }
   } catch(e) {
     clearInterval(interval);
-    if(venues.length>=3) {
-      const picks = venues.slice(0,3).map((v,i)=>({
-        time:['6:00 PM','7:30 PM','9:00 PM'][i],
-        duration_mins:[90,75,60][i],
-        name:v.name, area:v.area||'', address:v.address||'',
-        description:v.notes||`${v.best_for||'Great spot'}. ${v.must_try?'Must try: '+v.must_try:''}`,
-        tags:(v.vibe_tags||'').split(',').slice(0,3).map(t=>t.trim()).filter(Boolean),
-        category:(v.category||'restaurant').toLowerCase().split('/')[0].trim()
-      }));
-      renderResults(picks,vibeStr,timeStr);
-    } else {
-      renderResults([
-        {time:"6:00 PM",duration_mins:90,name:"Dishoom Shoreditch",area:"Shoreditch",address:"7 Boundary St, London E2 7JE",description:"Iconic Bombay cafe vibes. Legendary black dhal and bacon naan.",tags:["Food","Trendy","Halal"],category:"restaurant"},
-        {time:"8:00 PM",duration_mins:75,name:"Flight Club Shoreditch",area:"Shoreditch",address:"57 Bethnal Green Rd, London E1 6LA",description:"Social darts and cocktails. Incredibly fun for any group.",tags:["Activity","Fun","Drinks"],category:"activity"},
-        {time:"10:00 PM",duration_mins:60,name:"XOYO",area:"Shoreditch",address:"32-37 Cowper St, London EC2A 4AP",description:"One of London's best clubs with quality DJ sets.",tags:["Club","Music","Night out"],category:"bar"}
-      ],vibeStr,timeStr);
+    renderResults(smartPick(venues, vibeStr, timeStr, budget), vibeStr, timeStr);
+  }
+}
+
+// Smart fallback — uses real Supabase data, filters by area + vibe + category diversity
+function smartPick(venues, vibeStr, timeStr, dietary, budget) {
+  const vibeList = vibeStr.toLowerCase().split(',').map(v => v.trim());
+  const time = timeStr.toLowerCase();
+  const isDate = vibeList.some(v => v.includes('romantic'));
+  const isFun = vibeList.some(v => v.includes('fun') || v.includes('adventurous'));
+  const isNight = time.includes('night');
+  const isDay = time.includes('daytime') || time.includes('all day');
+
+  // Score each venue
+  const scored = venues.map(v => {
+    let score = Math.random() * 1.5; // small randomness so it's not always the same
+    const txt = ((v.vibe_tags||'') + ' ' + (v.best_for||'') + ' ' + (v.notes||'')).toLowerCase();
+    const cat = (v.category||'').toLowerCase();
+
+    // Vibe match
+    vibeList.forEach(vi => { if(txt.includes(vi)) score += 3; });
+
+    // Time match
+    if(isNight && (cat.includes('club') || cat.includes('bar') || txt.includes('night'))) score += 3;
+    if(isDay && (cat.includes('cafe') || cat.includes('market') || cat.includes('outdoor') || txt.includes('brunch'))) score += 3;
+    if(!isNight && !isDay && (cat.includes('restaurant') || cat.includes('bar'))) score += 2;
+
+    // Date night — prefer restaurants and bars over clubs
+    if(isDate && (cat.includes('restaurant') || cat.includes('bar') || cat.includes('cinema'))) score += 2;
+    if(isDate && cat.includes('club')) score -= 2;
+
+    // Fun/adventurous — prefer activities
+    if(isFun && (cat.includes('activity') || cat.includes('experience'))) score += 2;
+
+    // Budget
+    const price = (v.price_range||'').toLowerCase();
+    if(budget === 'free' && price.includes('free')) score += 3;
+    if(budget === 'budget' && price === '£') score += 2;
+    if(budget === 'luxury' && price.includes('££££')) score += 2;
+
+    return { ...v, _score: score };
+  });
+
+  scored.sort((a, b) => b._score - a._score);
+
+  // Pick 3 with different categories
+  const picks = [];
+  const usedCats = new Set();
+  const preferredOrder = isDate
+    ? ['restaurant', 'bar', 'cinema', 'activity', 'cafe', 'outdoor']
+    : isFun
+    ? ['activity', 'bar', 'restaurant', 'outdoor', 'cafe', 'cinema']
+    : ['restaurant', 'bar', 'activity', 'outdoor', 'cafe', 'cinema'];
+
+  // First pass — enforce category diversity
+  for (const v of scored) {
+    if (picks.length >= 3) break;
+    const cat = (v.category||'restaurant').toLowerCase().split('/')[0].trim().split(' ')[0];
+    if (!usedCats.has(cat)) {
+      usedCats.add(cat);
+      picks.push(v);
     }
   }
+
+  // If not enough, fill with best remaining
+  for (const v of scored) {
+    if (picks.length >= 3) break;
+    if (!picks.includes(v)) picks.push(v);
+  }
+
+  // Build times based on timing
+  const startTimes = isNight
+    ? ['9:00 PM', '10:30 PM', '12:00 AM']
+    : isDay
+    ? ['11:00 AM', '1:00 PM', '3:30 PM']
+    : ['6:00 PM', '7:30 PM', '9:30 PM'];
+
+  const durations = [90, 75, 60];
+
+  return picks.slice(0, 3).map((v, i) => ({
+    time: startTimes[i],
+    duration_mins: durations[i],
+    name: v.name,
+    area: v.area || '',
+    address: v.address || '',
+    description: v.notes || `${v.best_for || 'Great spot in ' + v.area}. ${v.must_try ? 'Must try: ' + v.must_try : ''}`,
+    tags: (v.vibe_tags || '').split(',').slice(0, 3).map(t => t.trim()).filter(Boolean),
+    category: (v.category || 'restaurant').toLowerCase().split('/')[0].trim().split(' ')[0]
+  }));
 }
 
 // SVG covers per category
