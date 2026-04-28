@@ -692,95 +692,24 @@ Return ONLY the JSON array.`;
     renderResults(stops,vibeStr,timeStr);
   } catch(e) {
     clearInterval(interval);
-    renderResults(smartPick(venues, vibeStr, timeStr, budget), vibeStr, timeStr);
-  }
-}
-
-// Smart fallback — uses real Supabase data, filters by area + vibe + category diversity
-function smartPick(venues, vibeStr, timeStr, dietary, budget) {
-  const vibeList = vibeStr.toLowerCase().split(',').map(v => v.trim());
-  const time = timeStr.toLowerCase();
-  const isDate = vibeList.some(v => v.includes('romantic'));
-  const isFun = vibeList.some(v => v.includes('fun') || v.includes('adventurous'));
-  const isNight = time.includes('night');
-  const isDay = time.includes('daytime') || time.includes('all day');
-
-  // Score each venue
-  const scored = venues.map(v => {
-    let score = Math.random() * 1.5; // small randomness so it's not always the same
-    const txt = ((v.vibe_tags||'') + ' ' + (v.best_for||'') + ' ' + (v.notes||'')).toLowerCase();
-    const cat = (v.category||'').toLowerCase();
-
-    // Vibe match
-    vibeList.forEach(vi => { if(txt.includes(vi)) score += 3; });
-
-    // Time match
-    if(isNight && (cat.includes('club') || cat.includes('bar') || txt.includes('night'))) score += 3;
-    if(isDay && (cat.includes('cafe') || cat.includes('market') || cat.includes('outdoor') || txt.includes('brunch'))) score += 3;
-    if(!isNight && !isDay && (cat.includes('restaurant') || cat.includes('bar'))) score += 2;
-
-    // Date night — prefer restaurants and bars over clubs
-    if(isDate && (cat.includes('restaurant') || cat.includes('bar') || cat.includes('cinema'))) score += 2;
-    if(isDate && cat.includes('club')) score -= 2;
-
-    // Fun/adventurous — prefer activities
-    if(isFun && (cat.includes('activity') || cat.includes('experience'))) score += 2;
-
-    // Budget
-    const price = (v.price_range||'').toLowerCase();
-    if(budget === 'free' && price.includes('free')) score += 3;
-    if(budget === 'budget' && price === '£') score += 2;
-    if(budget === 'luxury' && price.includes('££££')) score += 2;
-
-    return { ...v, _score: score };
-  });
-
-  scored.sort((a, b) => b._score - a._score);
-
-  // Pick 3 with different categories
-  const picks = [];
-  const usedCats = new Set();
-  const preferredOrder = isDate
-    ? ['restaurant', 'bar', 'cinema', 'activity', 'cafe', 'outdoor']
-    : isFun
-    ? ['activity', 'bar', 'restaurant', 'outdoor', 'cafe', 'cinema']
-    : ['restaurant', 'bar', 'activity', 'outdoor', 'cafe', 'cinema'];
-
-  // First pass — enforce category diversity
-  for (const v of scored) {
-    if (picks.length >= 3) break;
-    const cat = (v.category||'restaurant').toLowerCase().split('/')[0].trim().split(' ')[0];
-    if (!usedCats.has(cat)) {
-      usedCats.add(cat);
-      picks.push(v);
+    if(venues.length>=3) {
+      const picks = venues.slice(0,3).map((v,i)=>({
+        time:['6:00 PM','7:30 PM','9:00 PM'][i],
+        duration_mins:[90,75,60][i],
+        name:v.name, area:v.area||'', address:v.address||'',
+        description:v.notes||`${v.best_for||'Great spot'}. ${v.must_try?'Must try: '+v.must_try:''}`,
+        tags:(v.vibe_tags||'').split(',').slice(0,3).map(t=>t.trim()).filter(Boolean),
+        category:(v.category||'restaurant').toLowerCase().split('/')[0].trim()
+      }));
+      renderResults(picks,vibeStr,timeStr);
+    } else {
+      renderResults([
+        {time:"6:00 PM",duration_mins:90,name:"Dishoom Shoreditch",area:"Shoreditch",address:"7 Boundary St, London E2 7JE",description:"Iconic Bombay cafe vibes. Legendary black dhal and bacon naan.",tags:["Food","Trendy","Halal"],category:"restaurant"},
+        {time:"8:00 PM",duration_mins:75,name:"Flight Club Shoreditch",area:"Shoreditch",address:"57 Bethnal Green Rd, London E1 6LA",description:"Social darts and cocktails. Incredibly fun for any group.",tags:["Activity","Fun","Drinks"],category:"activity"},
+        {time:"10:00 PM",duration_mins:60,name:"XOYO",area:"Shoreditch",address:"32-37 Cowper St, London EC2A 4AP",description:"One of London's best clubs with quality DJ sets.",tags:["Club","Music","Night out"],category:"bar"}
+      ],vibeStr,timeStr);
     }
   }
-
-  // If not enough, fill with best remaining
-  for (const v of scored) {
-    if (picks.length >= 3) break;
-    if (!picks.includes(v)) picks.push(v);
-  }
-
-  // Build times based on timing
-  const startTimes = isNight
-    ? ['9:00 PM', '10:30 PM', '12:00 AM']
-    : isDay
-    ? ['11:00 AM', '1:00 PM', '3:30 PM']
-    : ['6:00 PM', '7:30 PM', '9:30 PM'];
-
-  const durations = [90, 75, 60];
-
-  return picks.slice(0, 3).map((v, i) => ({
-    time: startTimes[i],
-    duration_mins: durations[i],
-    name: v.name,
-    area: v.area || '',
-    address: v.address || '',
-    description: v.notes || `${v.best_for || 'Great spot in ' + v.area}. ${v.must_try ? 'Must try: ' + v.must_try : ''}`,
-    tags: (v.vibe_tags || '').split(',').slice(0, 3).map(t => t.trim()).filter(Boolean),
-    category: (v.category || 'restaurant').toLowerCase().split('/')[0].trim().split(' ')[0]
-  }));
 }
 
 // SVG covers per category
