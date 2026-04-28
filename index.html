@@ -19,658 +19,264 @@
   --grey: #eeebe7;
   --grey-mid: #d4d0cb;
   --grey-text: #888;
-  --text: #111111;
   --radius: 14px;
   --radius-sm: 10px;
 }
 
-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  max-width: 430px;
-  margin: 0 auto;
-  overflow-x: hidden;
-}
-
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--black); min-height: 100vh; max-width: 430px; margin: 0 auto; overflow-x: hidden; }
 .screen { display: none; min-height: 100vh; flex-direction: column; }
 .screen.active { display: flex; }
 
 /* ===== SPLASH ===== */
-#splash {
-  background: var(--white);
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
+#splash { background: var(--white); align-items: center; justify-content: center; gap: 12px; position: relative; overflow: hidden; }
 
-.splash-wordmark {
-  font-size: 46px;
-  font-weight: 800;
-  color: var(--black);
-  letter-spacing: -2px;
-  line-height: 1;
-  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
+.splash-abstract {
+  position: absolute; inset: 0; overflow: hidden;
 }
+.splash-abstract svg { width: 100%; height: 100%; }
 
+.splash-content { position: relative; text-align: center; z-index: 2; }
+.splash-wordmark { font-size: 48px; font-weight: 800; color: var(--black); letter-spacing: -2px; line-height: 1; animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both; }
 .splash-wordmark span { color: var(--burg); }
+.splash-sub { font-size: 11px; color: var(--grey-text); letter-spacing: 4px; text-transform: uppercase; margin-top: 10px; animation: fadeUp 0.7s 0.15s both; }
+.splash-line { width: 32px; height: 2px; background: var(--burg); margin: 12px auto 0; animation: fadeUp 0.7s 0.3s both; }
 
-.splash-sub {
-  font-size: 11px;
-  color: var(--grey-text);
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  animation: fadeUp 0.7s 0.15s cubic-bezier(0.16,1,0.3,1) both;
-}
-
-.splash-line {
-  width: 32px;
-  height: 2px;
-  background: var(--burg);
-  margin: 0 auto;
-  animation: fadeUp 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
 /* ===== ONBOARDING ===== */
-#onboarding {
-  background: var(--white);
-  padding: 64px 28px 48px;
-  justify-content: space-between;
+#onboarding { background: var(--white); justify-content: space-between; overflow: hidden; position: relative; }
+
+.onboard-hero {
+  position: relative; height: 280px; overflow: hidden; flex-shrink: 0;
+}
+.onboard-hero svg { width: 100%; height: 100%; }
+.onboard-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, var(--white) 100%);
 }
 
-.wordmark {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--black);
-  letter-spacing: -0.8px;
-  margin-bottom: 52px;
-}
-
+.onboard-body-wrap { padding: 0 28px 48px; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+.wordmark { font-size: 22px; font-weight: 800; color: var(--black); letter-spacing: -0.8px; margin-bottom: 20px; }
 .wordmark span { color: var(--burg); }
-
-.onboard-headline {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--black);
-  line-height: 1.1;
-  letter-spacing: -1.5px;
-  margin-bottom: 16px;
-}
-
-.onboard-body {
-  font-size: 15px;
-  color: var(--grey-text);
-  line-height: 1.65;
-  margin-bottom: 40px;
-}
-
-.feature-list { display: flex; flex-direction: column; gap: 14px; }
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: #555;
-}
-
-.feature-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--burg);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.btn-main {
-  width: 100%;
-  background: var(--burg);
-  color: var(--white);
-  border: none;
-  padding: 18px;
-  border-radius: var(--radius);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s;
-  letter-spacing: -0.3px;
-}
-
+.onboard-headline { font-size: 32px; font-weight: 800; color: var(--black); line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 12px; }
+.onboard-desc { font-size: 14px; color: var(--grey-text); line-height: 1.6; margin-bottom: 28px; }
+.feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+.feature-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #555; }
+.feature-dot { width: 6px; height: 6px; background: var(--burg); border-radius: 50%; flex-shrink: 0; }
+.btn-main { width: 100%; background: var(--burg); color: var(--white); border: none; padding: 18px; border-radius: var(--radius); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.15s; }
 .btn-main:active { background: var(--burg-light); }
-
-.btn-ghost {
-  width: 100%;
-  background: transparent;
-  color: var(--grey-text);
-  border: none;
-  padding: 14px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 4px;
-}
+.btn-ghost { width: 100%; background: transparent; color: var(--grey-text); border: none; padding: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; cursor: pointer; margin-top: 4px; }
 
 /* ===== PLANNER ===== */
 #planner { background: var(--bg); }
 
-.planner-top {
-  background: var(--white);
-  padding: 56px 24px 20px;
-  border-bottom: 1px solid var(--grey);
-}
+.planner-top { background: var(--white); border-bottom: 1px solid var(--grey); position: relative; overflow: hidden; }
+.planner-top-abstract { position: absolute; right: 0; top: 0; width: 160px; height: 100%; opacity: 0.06; pointer-events: none; }
+.planner-top-inner { padding: 56px 24px 20px; position: relative; z-index: 1; }
+.nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.back { width: 36px; height: 36px; background: var(--grey); border: none; border-radius: 50%; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--black); }
+.step-counter { font-size: 12px; font-weight: 600; color: var(--grey-text); }
+.skip-btn { background: none; border: none; font-size: 13px; color: var(--grey-text); cursor: pointer; padding: 4px; font-family: 'Plus Jakarta Sans', sans-serif; }
+.progress-track { height: 3px; background: var(--grey); border-radius: 2px; overflow: hidden; margin-bottom: 16px; }
+.progress-fill { height: 100%; background: var(--burg); border-radius: 2px; transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
+.planner-q { font-size: 24px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.2; color: var(--black); }
 
-.nav-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
+/* STEP VISUAL BANNERS */
+.step-banner { width: 100%; height: 90px; overflow: hidden; position: relative; }
+.step-banner svg { width: 100%; height: 100%; }
 
-.back {
-  width: 36px;
-  height: 36px;
-  background: var(--grey);
-  border: none;
-  border-radius: 50%;
-  font-size: 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--black);
-}
-
-.step-counter {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--grey-text);
-}
-
-.skip-btn {
-  background: none;
-  border: none;
-  font-size: 13px;
-  color: var(--grey-text);
-  cursor: pointer;
-  padding: 4px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-.progress-track {
-  height: 3px;
-  background: var(--grey);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--burg);
-  border-radius: 2px;
-  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
-}
-
-.planner-q {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.8px;
-  line-height: 1.2;
-  color: var(--black);
-}
-
-.planner-body { flex: 1; padding: 24px; overflow-y: auto; }
-
-.section-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--grey-text);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
+.planner-body { flex: 1; padding: 20px 24px 8px; overflow-y: auto; }
+.section-title { font-size: 11px; font-weight: 700; color: var(--grey-text); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
 
 /* VIBE GRID */
-.vibe-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-}
-
-.vibe-tile {
-  background: var(--white);
-  border: 1.5px solid var(--grey);
-  border-radius: var(--radius);
-  padding: 20px 10px 16px;
-  cursor: pointer;
-  transition: all 0.15s;
-  text-align: center;
-}
-
+.vibe-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.vibe-tile { background: var(--white); border: 1.5px solid var(--grey); border-radius: var(--radius); padding: 18px 8px 14px; cursor: pointer; transition: all 0.15s; text-align: center; position: relative; overflow: hidden; }
+.vibe-tile-bg { position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; }
+.vibe-tile.selected .vibe-tile-bg { opacity: 1; }
 .vibe-tile:active { transform: scale(0.97); }
-
-.vibe-tile.selected {
-  background: var(--burg-pale);
-  border-color: var(--burg);
-}
-
-.vibe-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--grey-text);
-  letter-spacing: 0.3px;
-  line-height: 1.3;
-}
-
+.vibe-tile.selected { border-color: var(--burg); }
+.vibe-label { font-size: 11px; font-weight: 700; color: var(--grey-text); letter-spacing: 0.3px; line-height: 1.3; position: relative; z-index: 1; }
 .vibe-tile.selected .vibe-label { color: var(--burg); }
 
 /* COUNTER */
-.counter-card {
-  background: var(--white);
-  border: 1.5px solid var(--grey);
-  border-radius: var(--radius);
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-}
-
-.counter-name { font-size: 15px; font-weight: 600; color: var(--black); }
+.counter-card { background: var(--white); border: 1.5px solid var(--grey); border-radius: var(--radius); padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.counter-name { font-size: 15px; font-weight: 600; }
 .counter-hint { font-size: 12px; color: var(--grey-text); margin-top: 2px; }
-
 .counter-ctrl { display: flex; align-items: center; gap: 16px; }
-
-.c-btn {
-  width: 36px;
-  height: 36px;
-  background: var(--burg);
-  color: var(--white);
-  border: none;
-  border-radius: 50%;
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-.c-val {
-  font-size: 22px;
-  font-weight: 800;
-  min-width: 30px;
-  text-align: center;
-  color: var(--black);
-}
+.c-btn { width: 36px; height: 36px; background: var(--burg); color: var(--white); border: none; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; font-family: 'Plus Jakarta Sans', sans-serif; }
+.c-val { font-size: 22px; font-weight: 800; min-width: 30px; text-align: center; }
 
 /* CHIPS */
-.chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.chip { background: var(--white); border: 1.5px solid var(--grey); color: #555; padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.chip.selected { background: var(--burg-pale); border-color: var(--burg); color: var(--burg); }
 
-.chip {
-  background: var(--white);
-  border: 1.5px solid var(--grey);
-  color: #555;
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.chip.selected {
-  background: var(--burg-pale);
-  border-color: var(--burg);
-  color: var(--burg);
-}
-
-/* OPTIONS */
-.option-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
-
-.option-item {
-  background: var(--white);
-  border: 1.5px solid var(--grey);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.option-item.selected {
-  border-color: var(--burg);
-  background: var(--burg-pale);
-}
-
-.option-text { font-size: 14px; font-weight: 600; color: var(--black); }
+/* TIMING */
+.option-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+.option-item { background: var(--white); border: 1.5px solid var(--grey); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s; }
+.option-item.selected { border-color: var(--burg); background: var(--burg-pale); }
+.option-text { font-size: 14px; font-weight: 600; }
 .option-sub { font-size: 12px; color: var(--grey-text); margin-top: 2px; }
-
-.check {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1.5px solid var(--grey-mid);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-}
-
+.check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--grey-mid); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
 .option-item.selected .check { background: var(--burg); border-color: var(--burg); }
 .check-mark { font-size: 11px; display: none; font-weight: 700; color: var(--white); }
 .option-item.selected .check-mark { display: block; }
 
+.time-window { background: var(--white); border: 1.5px solid var(--grey); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; }
+.time-window-label { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.time-inputs { display: flex; align-items: center; gap: 10px; }
+.time-inputs input { flex: 1; background: var(--bg); border: 1.5px solid var(--grey); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--black); outline: none; transition: border-color 0.15s; }
+.time-inputs input:focus { border-color: var(--burg); }
+.time-sep { font-size: 13px; font-weight: 600; color: var(--grey-text); }
+
 /* BUDGET */
-.budget-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 28px;
-}
-
-.budget-tile {
-  background: var(--white);
-  border: 1.5px solid var(--grey);
-  border-radius: var(--radius-sm);
-  padding: 16px 8px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.budget-tile.selected {
-  background: var(--burg-pale);
-  border-color: var(--burg);
-}
-
-.budget-val { font-size: 13px; font-weight: 800; color: var(--black); }
-.budget-lbl { font-size: 10px; color: var(--grey-text); margin-top: 3px; font-weight: 500; }
+.budget-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 24px; }
+.budget-tile { background: var(--white); border: 1.5px solid var(--grey); border-radius: var(--radius-sm); padding: 14px 6px; text-align: center; cursor: pointer; transition: all 0.15s; }
+.budget-tile.selected { background: var(--burg-pale); border-color: var(--burg); }
+.budget-val { font-size: 12px; font-weight: 800; color: var(--black); }
+.budget-lbl { font-size: 9px; color: var(--grey-text); margin-top: 3px; font-weight: 500; }
 .budget-tile.selected .budget-val { color: var(--burg); }
 
-/* TEXTAREA */
-.notes-box {
-  width: 100%;
-  background: var(--white);
-  border: 1.5px solid var(--grey);
-  border-radius: var(--radius);
-  padding: 16px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
-  color: var(--black);
-  resize: none;
-  outline: none;
-  min-height: 100px;
-  margin-bottom: 24px;
-  line-height: 1.5;
-  transition: border-color 0.15s;
-}
+/* AI CHAT */
+.ai-chat-box { background: var(--white); border: 1.5px solid var(--grey); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.ai-chat-header { background: var(--burg-pale); border-bottom: 1px solid var(--burg-border); padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+.ai-dot { width: 8px; height: 8px; background: var(--burg); border-radius: 50%; animation: blink 1.5s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.ai-label { font-size: 12px; font-weight: 700; color: var(--burg); letter-spacing: 0.5px; }
+.ai-messages { padding: 14px 16px; min-height: 60px; max-height: 150px; overflow-y: auto; }
+.ai-msg { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 8px; }
+.ai-msg.user-msg { color: var(--black); font-weight: 600; text-align: right; }
+.ai-input-row { display: flex; border-top: 1px solid var(--grey); }
+.ai-input { flex: 1; border: none; outline: none; padding: 12px 16px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--black); background: transparent; }
+.ai-input::placeholder { color: var(--grey-mid); }
+.ai-send { background: var(--burg); color: var(--white); border: none; padding: 0 16px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
 
-.notes-box:focus { border-color: var(--burg); }
-.notes-box::placeholder { color: var(--grey-mid); }
-
-.planner-foot {
-  padding: 16px 24px 36px;
-  background: var(--bg);
-  border-top: 1px solid var(--grey);
-}
+.planner-foot { padding: 16px 24px 36px; background: var(--bg); border-top: 1px solid var(--grey); }
 
 /* ===== LOADING ===== */
-#loading {
-  background: var(--white);
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 28px;
-}
-
-.load-wordmark {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--black);
-  letter-spacing: -1px;
-}
-
+#loading { background: var(--white); align-items: center; justify-content: center; text-align: center; gap: 28px; position: relative; overflow: hidden; }
+.loading-abstract { position: absolute; inset: 0; opacity: 0.04; pointer-events: none; }
+.load-wordmark { font-size: 28px; font-weight: 800; color: var(--black); letter-spacing: -1px; position: relative; z-index: 1; }
 .load-wordmark span { color: var(--burg); }
-
-.load-bar-wrap {
-  width: 160px;
-  height: 2px;
-  background: var(--grey);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.load-bar {
-  height: 100%;
-  background: var(--burg);
-  border-radius: 2px;
-  animation: loadSlide 1.8s ease-in-out infinite;
-}
-
-@keyframes loadSlide {
-  0% { width: 0%; margin-left: 0; }
-  50% { width: 60%; }
-  100% { width: 0%; margin-left: 100%; }
-}
-
-.load-msg { font-size: 15px; color: var(--grey-text); line-height: 1.6; }
-.load-status { font-size: 11px; color: var(--burg); letter-spacing: 1.5px; text-transform: uppercase; min-height: 16px; }
+.load-bar-wrap { width: 160px; height: 2px; background: var(--grey); border-radius: 2px; overflow: hidden; position: relative; z-index: 1; }
+.load-bar { height: 100%; background: var(--burg); border-radius: 2px; animation: loadSlide 1.8s ease-in-out infinite; }
+@keyframes loadSlide { 0%{width:0%;margin-left:0} 50%{width:60%} 100%{width:0%;margin-left:100%} }
+.load-msg { font-size: 15px; color: var(--grey-text); line-height: 1.6; position: relative; z-index: 1; }
+.load-status { font-size: 11px; color: var(--burg); letter-spacing: 1.5px; text-transform: uppercase; position: relative; z-index: 1; }
 
 /* ===== RESULTS ===== */
 #results { background: var(--bg); }
-
-.results-head {
-  background: var(--white);
-  padding: 56px 24px 20px;
-  border-bottom: 1px solid var(--grey);
-}
-
-.results-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.results-h1 {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: var(--black);
-  margin-bottom: 4px;
-}
-
+.results-head { background: var(--white); padding: 56px 24px 20px; border-bottom: 1px solid var(--grey); }
+.results-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.results-h1 { font-size: 26px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
 .results-meta { font-size: 13px; color: var(--grey-text); }
-
 .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
-
-.tag {
-  background: var(--burg-pale);
-  border: 1px solid var(--burg-border);
-  color: var(--burg);
-  padding: 5px 12px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-}
-
+.tag { background: var(--burg-pale); border: 1px solid var(--burg-border); color: var(--burg); padding: 5px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; }
 .results-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
 
-#map {
-  width: 100%;
-  height: 200px;
-  border-radius: var(--radius);
-  margin-bottom: 16px;
-  overflow: hidden;
-  background: var(--grey);
-  border: 1px solid var(--grey);
-}
+#map { width: 100%; height: 200px; border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; background: var(--grey); border: 1px solid var(--grey); }
 
-.stop-card {
-  background: var(--white);
-  border: 1px solid var(--grey);
-  border-radius: var(--radius);
-  overflow: hidden;
-  margin-bottom: 10px;
-  animation: cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
-}
-
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+.stop-card { background: var(--white); border: 1px solid var(--grey); border-radius: var(--radius); overflow: hidden; margin-bottom: 10px; animation: cardIn 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes cardIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.stop-cover { width: 100%; height: 100px; position: relative; overflow: hidden; }
+.stop-cover svg { width: 100%; height: 100%; }
+.stop-cover-label { position: absolute; bottom: 8px; left: 12px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
 .stop-accent { height: 3px; background: var(--burg); }
-.stop-body { padding: 16px 18px; }
-.stop-time { font-size: 10px; font-weight: 700; color: var(--grey-text); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
-.stop-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; color: var(--black); margin-bottom: 4px; line-height: 1.3; }
+.stop-body { padding: 14px 16px; }
+.stop-time-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.stop-time { font-size: 10px; font-weight: 700; color: var(--grey-text); letter-spacing: 1.5px; text-transform: uppercase; }
+.stop-duration { font-size: 10px; font-weight: 600; color: var(--burg); background: var(--burg-pale); padding: 3px 8px; border-radius: 20px; }
+.stop-name { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 3px; line-height: 1.3; }
 .stop-area { font-size: 12px; color: var(--grey-text); margin-bottom: 8px; font-weight: 500; }
-.stop-desc { font-size: 13px; color: #555; line-height: 1.55; margin-bottom: 12px; }
+.stop-desc { font-size: 13px; color: #555; line-height: 1.55; margin-bottom: 10px; }
 .stop-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .stop-tag { background: var(--bg); border: 1px solid var(--grey); padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; color: #666; }
 
-.results-foot {
-  padding: 12px 24px 36px;
-  display: flex;
-  gap: 10px;
-  background: var(--bg);
-  border-top: 1px solid var(--grey);
-}
+.results-foot { padding: 12px 24px 36px; display: flex; gap: 10px; background: var(--bg); border-top: 1px solid var(--grey); }
+.btn-share { flex: 1; background: var(--burg); color: var(--white); border: none; padding: 17px; border-radius: var(--radius); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+.btn-reset { background: var(--grey); color: var(--black); border: none; padding: 17px 20px; border-radius: var(--radius); font-size: 16px; cursor: pointer; }
 
-.btn-share {
-  flex: 1;
-  background: var(--burg);
-  color: var(--white);
-  border: none;
-  padding: 17px;
-  border-radius: var(--radius);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: -0.3px;
-}
-
-.btn-reset {
-  background: var(--grey);
-  color: var(--black);
-  border: none;
-  padding: 17px 20px;
-  border-radius: var(--radius);
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* SHARE SHEET */
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 100;
-  max-width: 430px;
-  margin: 0 auto;
-  align-items: flex-end;
-}
-
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; max-width: 430px; margin: 0 auto; align-items: flex-end; }
 .overlay.open { display: flex; }
-
-.sheet {
-  background: var(--white);
-  border-radius: 24px 24px 0 0;
-  padding: 20px 24px 44px;
-  width: 100%;
-  border-top: 1px solid var(--grey);
-  animation: sheetUp 0.3s cubic-bezier(0.16,1,0.3,1);
-}
-
-@keyframes sheetUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
+.sheet { background: var(--white); border-radius: 24px 24px 0 0; padding: 20px 24px 44px; width: 100%; border-top: 1px solid var(--grey); animation: sheetUp 0.3s cubic-bezier(0.16,1,0.3,1); }
+@keyframes sheetUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 .sheet-handle { width: 36px; height: 3px; background: var(--grey); border-radius: 2px; margin: 0 auto 24px; }
-.sheet-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 24px; color: var(--black); }
-
+.sheet-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 24px; }
 .share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-
 .share-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
-
-.share-icon {
-  width: 52px;
-  height: 52px;
-  background: var(--bg);
-  border: 1px solid var(--grey);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
+.share-icon { width: 52px; height: 52px; background: var(--bg); border: 1px solid var(--grey); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .share-lbl { font-size: 11px; color: var(--grey-text); font-weight: 600; }
-
-.link-row {
-  background: var(--bg);
-  border: 1px solid var(--grey);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
+.link-row { background: var(--bg); border: 1px solid var(--grey); border-radius: var(--radius-sm); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
 .link-text { font-size: 13px; color: var(--grey-text); }
-
-.copy-btn {
-  background: var(--burg);
-  color: var(--white);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
+.copy-btn { background: var(--burg); color: var(--white); border: none; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
 </style>
 </head>
 <body>
 
 <!-- SPLASH -->
 <div class="screen active" id="splash">
-  <div style="text-align:center;">
-    <div class="splash-wordmark">Get<span>Outa</span></div>
-    <div class="splash-sub" style="margin-top:10px;">London Experiences</div>
+  <div class="splash-abstract">
+    <svg viewBox="0 0 430 932" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <circle cx="380" cy="120" r="220" fill="#7c1f2e" opacity="0.06"/>
+      <circle cx="60" cy="800" r="260" fill="#7c1f2e" opacity="0.05"/>
+      <circle cx="200" cy="460" r="180" fill="#7c1f2e" opacity="0.03"/>
+      <rect x="300" y="300" width="180" height="180" rx="40" fill="#7c1f2e" opacity="0.04" transform="rotate(20 390 390)"/>
+      <rect x="-40" y="200" width="140" height="140" rx="30" fill="#7c1f2e" opacity="0.04" transform="rotate(-15 30 270)"/>
+      <circle cx="340" cy="700" r="80" fill="none" stroke="#7c1f2e" stroke-width="2" opacity="0.08"/>
+      <circle cx="100" cy="200" r="60" fill="none" stroke="#7c1f2e" stroke-width="1.5" opacity="0.07"/>
+      <line x1="0" y1="450" x2="430" y2="450" stroke="#7c1f2e" stroke-width="0.5" opacity="0.06"/>
+      <line x1="215" y1="0" x2="215" y2="932" stroke="#7c1f2e" stroke-width="0.5" opacity="0.04"/>
+    </svg>
   </div>
-  <div class="splash-line"></div>
+  <div class="splash-content">
+    <div class="splash-wordmark">Get<span>Outa</span></div>
+    <div class="splash-sub">London Experiences</div>
+    <div class="splash-line"></div>
+  </div>
 </div>
 
 <!-- ONBOARDING -->
 <div class="screen" id="onboarding">
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;">
+  <div class="onboard-hero">
+    <svg viewBox="0 0 430 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="430" height="280" fill="#f9f0f1"/>
+      <!-- Abstract London skyline shapes -->
+      <rect x="0" y="160" width="430" height="120" fill="#f5ebe9"/>
+      <!-- Buildings abstract -->
+      <rect x="20" y="120" width="30" height="80" rx="4" fill="#e8c4c9" opacity="0.7"/>
+      <rect x="60" y="90" width="20" height="110" rx="3" fill="#d4a0a8" opacity="0.5"/>
+      <rect x="90" y="110" width="40" height="90" rx="4" fill="#e8c4c9" opacity="0.6"/>
+      <rect x="140" y="80" width="25" height="120" rx="3" fill="#c98090" opacity="0.4"/>
+      <rect x="175" y="100" width="35" height="100" rx="4" fill="#e0b0ba" opacity="0.6"/>
+      <!-- Shard shape -->
+      <polygon points="230,60 240,200 220,200" fill="#7c1f2e" opacity="0.25"/>
+      <rect x="250" y="110" width="30" height="90" rx="3" fill="#d4a0a8" opacity="0.5"/>
+      <rect x="290" y="130" width="50" height="70" rx="4" fill="#e8c4c9" opacity="0.7"/>
+      <!-- Dome shape (St Paul's) -->
+      <ellipse cx="370" cy="130" rx="35" ry="20" fill="#c98090" opacity="0.35"/>
+      <rect x="350" y="128" width="40" height="72" rx="2" fill="#d4a0a8" opacity="0.4"/>
+      <!-- Abstract circles -->
+      <circle cx="340" cy="50" r="50" fill="#7c1f2e" opacity="0.06"/>
+      <circle cx="80" cy="40" r="40" fill="#7c1f2e" opacity="0.05"/>
+      <circle cx="200" cy="30" r="30" fill="#7c1f2e" opacity="0.04"/>
+      <!-- Dots pattern -->
+      <circle cx="50" cy="50" r="3" fill="#7c1f2e" opacity="0.15"/>
+      <circle cx="100" cy="30" r="2" fill="#7c1f2e" opacity="0.1"/>
+      <circle cx="160" cy="55" r="2.5" fill="#7c1f2e" opacity="0.12"/>
+      <circle cx="290" cy="45" r="2" fill="#7c1f2e" opacity="0.1"/>
+      <circle cx="400" cy="60" r="3" fill="#7c1f2e" opacity="0.12"/>
+    </svg>
+    <div class="onboard-hero-overlay"></div>
+  </div>
+  <div class="onboard-body-wrap">
     <div class="wordmark">Get<span>Outa</span></div>
     <div class="onboard-headline">Plan your perfect London day.</div>
-    <div class="onboard-body">Tell us what you're after and we'll build a full itinerary — real venues, timings, everything sorted.</div>
+    <div class="onboard-desc">Tell us what you're after and we'll build a full itinerary — real venues, timings, everything sorted.</div>
     <div class="feature-list">
       <div class="feature-item"><div class="feature-dot"></div>Personalised to your vibe and group</div>
-      <div class="feature-item"><div class="feature-dot"></div>Real London venues with timings</div>
+      <div class="feature-item"><div class="feature-dot"></div>Real London venues with exact timings</div>
       <div class="feature-item"><div class="feature-dot"></div>Share the plan with your crew</div>
     </div>
-  </div>
-  <div>
     <button class="btn-main" onclick="goPlanner()">Start planning</button>
     <button class="btn-ghost">Sign in</button>
   </div>
@@ -679,30 +285,81 @@ body {
 <!-- PLANNER -->
 <div class="screen" id="planner">
   <div class="planner-top">
-    <div class="nav-row">
-      <button class="back" onclick="prevStep()">←</button>
-      <span class="step-counter" id="step-label">1 of 4</span>
-      <button class="skip-btn" onclick="nextStep()">Skip</button>
+    <svg class="planner-top-abstract" viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="120" cy="20" r="60" fill="#7c1f2e"/>
+      <circle cx="160" cy="100" r="40" fill="#7c1f2e"/>
+      <rect x="60" y="40" width="60" height="60" rx="12" fill="#7c1f2e" transform="rotate(30 90 70)"/>
+    </svg>
+    <div class="planner-top-inner">
+      <div class="nav-row">
+        <button class="back" onclick="prevStep()">&#8592;</button>
+        <span class="step-counter" id="step-label">1 of 4</span>
+        <button class="skip-btn" onclick="nextStep()">Skip</button>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress" style="width:25%"></div>
+      </div>
+      <div class="planner-q" id="planner-q">What's the vibe?</div>
     </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progress" style="width:25%"></div>
-    </div>
-    <div class="planner-q" id="planner-q">What's the vibe?</div>
   </div>
 
   <div class="planner-body">
+
+    <!-- STEP 1 -->
     <div id="s1">
+      <div id="step-banner-1" class="step-banner">
+        <svg viewBox="0 0 430 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="430" height="90" fill="#f9f0f1"/>
+          <circle cx="60" cy="45" r="50" fill="#e8c4c9" opacity="0.5"/>
+          <circle cx="200" cy="20" r="35" fill="#d4a0a8" opacity="0.3"/>
+          <circle cx="370" cy="60" r="55" fill="#e8c4c9" opacity="0.4"/>
+          <circle cx="290" cy="10" r="25" fill="#c98090" opacity="0.2"/>
+          <rect x="130" y="25" width="80" height="40" rx="20" fill="#7c1f2e" opacity="0.08"/>
+          <text x="215" y="52" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#7c1f2e" opacity="0.5" letter-spacing="2">CHOOSE YOUR VIBE</text>
+        </svg>
+      </div>
+      <div style="height:16px"></div>
       <div class="vibe-grid">
-        <div class="vibe-tile" onclick="toggleVibe(this,'Romantic')"><div class="vibe-label">Romantic</div></div>
-        <div class="vibe-tile" onclick="toggleVibe(this,'Trendy')"><div class="vibe-label">Hot & Trendy</div></div>
-        <div class="vibe-tile" onclick="toggleVibe(this,'Fun')"><div class="vibe-label">Fun</div></div>
-        <div class="vibe-tile" onclick="toggleVibe(this,'Adventurous')"><div class="vibe-label">Adventurous</div></div>
-        <div class="vibe-tile" onclick="toggleVibe(this,'Casual')"><div class="vibe-label">Casual</div></div>
-        <div class="vibe-tile" onclick="toggleVibe(this,'Cultural')"><div class="vibe-label">Cultural</div></div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Romantic')">
+          <div class="vibe-tile-bg" style="background:linear-gradient(135deg,#f9f0f1,#f5e0e4)"></div>
+          <div class="vibe-label">Romantic</div>
+        </div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Trendy')">
+          <div class="vibe-tile-bg" style="background:linear-gradient(135deg,#f9f0f1,#f5e0e4)"></div>
+          <div class="vibe-label">Hot & Trendy</div>
+        </div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Fun')">
+          <div class="vibe-tile-bg" style="background:linear-gradient(135deg,#f9f0f1,#f5e0e4)"></div>
+          <div class="vibe-label">Fun</div>
+        </div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Adventurous')">
+          <div class="vibe-tile-bg" style="background:linear-gradient(135deg,#f9f0f1,#f5e0e4)"></div>
+          <div class="vibe-label">Adventurous</div>
+        </div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Casual')">
+          <div class="vibe-tile-bg" style="background:linear-gradient(135deg,#f9f0f1,#f5e0e4)"></div>
+          <div class="vibe-label">Casual</div>
+        </div>
+        <div class="vibe-tile" onclick="toggleVibe(this,'Cultural')">
+          <div class="vibe-tile-bg" style="background:linear-gradient(135deg,#f9f0f1,#f5e0e4)"></div>
+          <div class="vibe-label">Cultural</div>
+        </div>
       </div>
     </div>
 
+    <!-- STEP 2 -->
     <div id="s2" style="display:none">
+      <div class="step-banner">
+        <svg viewBox="0 0 430 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="430" height="90" fill="#f0f3f9"/>
+          <circle cx="80" cy="45" r="55" fill="#c4cce8" opacity="0.4"/>
+          <circle cx="250" cy="30" r="40" fill="#a0b0d4" opacity="0.25"/>
+          <circle cx="400" cy="55" r="50" fill="#c4cce8" opacity="0.35"/>
+          <rect x="160" y="28" width="110" height="34" rx="17" fill="#3a5fa0" opacity="0.06"/>
+          <text x="215" y="50" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#3a5fa0" opacity="0.4" letter-spacing="2">WHO'S COMING?</text>
+        </svg>
+      </div>
+      <div style="height:16px"></div>
       <div class="section-title">Group size</div>
       <div class="counter-card">
         <div>
@@ -710,7 +367,7 @@ body {
           <div class="counter-hint">Including yourself</div>
         </div>
         <div class="counter-ctrl">
-          <button class="c-btn" onclick="changeCount(-1)">−</button>
+          <button class="c-btn" onclick="changeCount(-1)">&#8722;</button>
           <div class="c-val" id="count-val">2</div>
           <button class="c-btn" onclick="changeCount(1)">+</button>
         </div>
@@ -724,51 +381,80 @@ body {
         <div class="chip" onclick="toggleChip(this)">Halal</div>
         <div class="chip" onclick="toggleChip(this)">Kosher</div>
         <div class="chip" onclick="toggleChip(this)">Nut allergy</div>
+        <div class="chip" onclick="toggleChip(this)">Dairy-free</div>
+        <div class="chip" onclick="toggleChip(this)">Pescatarian</div>
       </div>
     </div>
 
+    <!-- STEP 3 -->
     <div id="s3" style="display:none">
+      <div class="step-banner">
+        <svg viewBox="0 0 430 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="430" height="90" fill="#f0f7f2"/>
+          <circle cx="50" cy="45" r="50" fill="#a8d4b4" opacity="0.4"/>
+          <circle cx="215" cy="20" r="35" fill="#80c090" opacity="0.2"/>
+          <circle cx="390" cy="50" r="55" fill="#a8d4b4" opacity="0.35"/>
+          <!-- Clock abstract -->
+          <circle cx="215" cy="45" r="22" fill="none" stroke="#2d7a4f" stroke-width="1.5" opacity="0.2"/>
+          <line x1="215" y1="45" x2="215" y2="28" stroke="#2d7a4f" stroke-width="1.5" opacity="0.25"/>
+          <line x1="215" y1="45" x2="226" y2="50" stroke="#2d7a4f" stroke-width="1.5" opacity="0.25"/>
+          <text x="215" y="82" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#2d7a4f" opacity="0.4" letter-spacing="2">WHEN & BUDGET</text>
+        </svg>
+      </div>
+      <div style="height:16px"></div>
       <div class="section-title">When are you going?</div>
       <div class="option-list">
-        <div class="option-item" onclick="selectOption(this,'timing')">
-          <div><div class="option-text">Daytime</div><div class="option-sub">12pm – 6pm</div></div>
-          <div class="check"><span class="check-mark">✓</span></div>
+        <div class="option-item" onclick="selectOption(this)">
+          <div><div class="option-text">Daytime</div><div class="option-sub">12pm &ndash; 6pm</div></div>
+          <div class="check"><span class="check-mark">&#10003;</span></div>
         </div>
-        <div class="option-item" onclick="selectOption(this,'timing')">
-          <div><div class="option-text">Evening</div><div class="option-sub">6pm – 10pm</div></div>
-          <div class="check"><span class="check-mark">✓</span></div>
+        <div class="option-item" onclick="selectOption(this)">
+          <div><div class="option-text">Evening</div><div class="option-sub">6pm &ndash; 10pm</div></div>
+          <div class="check"><span class="check-mark">&#10003;</span></div>
         </div>
-        <div class="option-item" onclick="selectOption(this,'timing')">
-          <div><div class="option-text">Night out</div><div class="option-sub">10pm – late</div></div>
-          <div class="check"><span class="check-mark">✓</span></div>
+        <div class="option-item" onclick="selectOption(this)">
+          <div><div class="option-text">Night out</div><div class="option-sub">10pm &ndash; late</div></div>
+          <div class="check"><span class="check-mark">&#10003;</span></div>
         </div>
-        <div class="option-item" onclick="selectOption(this,'timing')">
-          <div><div class="option-text">All day</div><div class="option-sub">Full day adventure</div></div>
-          <div class="check"><span class="check-mark">✓</span></div>
+        <div class="option-item" onclick="selectOption(this)">
+          <div><div class="option-text">All day</div><div class="option-sub">Full day, morning to evening</div></div>
+          <div class="check"><span class="check-mark">&#10003;</span></div>
+        </div>
+      </div>
+      <div class="section-title">Or set a custom time window</div>
+      <div class="time-window">
+        <div class="time-window-label">How long are you planning for?</div>
+        <div class="time-inputs">
+          <input type="time" id="time-from" value="18:00" onchange="customTimeSet()">
+          <span class="time-sep">to</span>
+          <input type="time" id="time-to" value="22:00" onchange="customTimeSet()">
         </div>
       </div>
       <div class="section-title">Budget per person</div>
       <div class="budget-row">
-        <div class="budget-tile" onclick="selectBudget(this,'free')">
-          <div class="budget-val">Free</div>
-          <div class="budget-lbl">£0</div>
-        </div>
-        <div class="budget-tile" onclick="selectBudget(this,'budget')">
-          <div class="budget-val">£</div>
-          <div class="budget-lbl">Under £20</div>
-        </div>
-        <div class="budget-tile" onclick="selectBudget(this,'mid')">
-          <div class="budget-val">££</div>
-          <div class="budget-lbl">£20–50</div>
-        </div>
-        <div class="budget-tile" onclick="selectBudget(this,'splurge')">
-          <div class="budget-val">£££</div>
-          <div class="budget-lbl">£50+</div>
-        </div>
+        <div class="budget-tile" onclick="selectBudget(this,'free')"><div class="budget-val">Free</div><div class="budget-lbl">&pound;0</div></div>
+        <div class="budget-tile" onclick="selectBudget(this,'budget')"><div class="budget-val">&pound;</div><div class="budget-lbl">Under &pound;20</div></div>
+        <div class="budget-tile" onclick="selectBudget(this,'mid')"><div class="budget-val">&pound;&pound;</div><div class="budget-lbl">&pound;20&ndash;50</div></div>
+        <div class="budget-tile" onclick="selectBudget(this,'splurge')"><div class="budget-val">&pound;&pound;&pound;</div><div class="budget-lbl">&pound;50&ndash;100</div></div>
+        <div class="budget-tile" onclick="selectBudget(this,'luxury')"><div class="budget-val">&pound;&pound;&pound;&pound;</div><div class="budget-lbl">&pound;100+</div></div>
       </div>
     </div>
 
+    <!-- STEP 4 -->
     <div id="s4" style="display:none">
+      <div class="step-banner">
+        <svg viewBox="0 0 430 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="430" height="90" fill="#f7f3ee"/>
+          <circle cx="70" cy="45" r="52" fill="#d4c4a8" opacity="0.4"/>
+          <circle cx="320" cy="30" r="40" fill="#c4b090" opacity="0.3"/>
+          <circle cx="420" cy="70" r="45" fill="#d4c4a8" opacity="0.3"/>
+          <!-- Map pin abstract -->
+          <circle cx="215" cy="35" r="12" fill="#7c1f2e" opacity="0.18"/>
+          <line x1="215" y1="47" x2="215" y2="62" stroke="#7c1f2e" stroke-width="2" opacity="0.15"/>
+          <text x="215" y="82" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#7c1f2e" opacity="0.4" letter-spacing="2">FINAL DETAILS</text>
+        </svg>
+      </div>
+      <div style="height:16px"></div>
       <div class="section-title">Location preference</div>
       <div class="chip-wrap">
         <div class="chip" onclick="toggleChip(this,true)">Anywhere</div>
@@ -778,11 +464,23 @@ body {
         <div class="chip" onclick="toggleChip(this,true)">North London</div>
         <div class="chip" onclick="toggleChip(this,true)">West London</div>
       </div>
-      <div class="section-title">Anything else?</div>
-      <textarea class="notes-box" id="notes" placeholder="Special requests, accessibility needs, or anything else..."></textarea>
+      <div class="section-title">Tell us more (optional)</div>
+      <div class="ai-chat-box">
+        <div class="ai-chat-header">
+          <div class="ai-dot"></div>
+          <div class="ai-label">GetOuta AI</div>
+        </div>
+        <div class="ai-messages" id="ai-messages">
+          <div class="ai-msg">Tell me anything specific — celebrating something? Need somewhere accessible? Want a hidden gem? I'll personalise the plan.</div>
+        </div>
+        <div class="ai-input-row">
+          <input class="ai-input" id="ai-input" type="text" placeholder="e.g. it's my birthday, surprise me..." onkeydown="if(event.key==='Enter')sendAiMsg()">
+          <button class="ai-send" onclick="sendAiMsg()">Send</button>
+        </div>
+      </div>
     </div>
-  </div>
 
+  </div>
   <div class="planner-foot">
     <button class="btn-main" id="next-btn" onclick="nextStep()">Continue</button>
   </div>
@@ -790,21 +488,27 @@ body {
 
 <!-- LOADING -->
 <div class="screen" id="loading">
+  <svg class="loading-abstract" viewBox="0 0 430 932" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <circle cx="50" cy="150" r="180" fill="#7c1f2e"/>
+    <circle cx="400" cy="750" r="200" fill="#7c1f2e"/>
+    <circle cx="220" cy="450" r="130" fill="#7c1f2e"/>
+    <rect x="280" y="100" width="200" height="200" rx="50" fill="#7c1f2e" transform="rotate(25 380 200)"/>
+  </svg>
   <div class="load-wordmark">Get<span>Outa</span></div>
   <div class="load-bar-wrap"><div class="load-bar"></div></div>
   <div class="load-msg">Building your perfect<br>London itinerary...</div>
-  <div class="load-status" id="load-status">Finding the best spots</div>
+  <div class="load-status" id="load-status">Searching your venues</div>
 </div>
 
 <!-- RESULTS -->
 <div class="screen" id="results">
   <div class="results-head">
     <div class="results-nav">
-      <button class="back" onclick="resetApp()">←</button>
+      <button class="back" onclick="resetApp()">&#8592;</button>
       <button class="btn-share" style="width:auto;padding:10px 18px;font-size:13px;" onclick="openShare()">Share</button>
     </div>
     <div class="results-h1">Your Plan</div>
-    <div class="results-meta" id="results-meta">London · Tonight</div>
+    <div class="results-meta" id="results-meta">London &middot; Tonight</div>
     <div class="tag-row" id="results-tags"></div>
   </div>
   <div class="results-body">
@@ -813,20 +517,20 @@ body {
   </div>
   <div class="results-foot">
     <button class="btn-share" onclick="openShare()">Share with friends</button>
-    <button class="btn-reset" onclick="resetApp()">↺</button>
+    <button class="btn-reset" onclick="resetApp()">&#8635;</button>
   </div>
 </div>
 
-<!-- SHARE OVERLAY -->
+<!-- SHARE -->
 <div class="overlay" id="share-overlay" onclick="closeShare(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-title">Share your plan</div>
     <div class="share-grid">
-      <div class="share-item"><div class="share-icon">💬</div><div class="share-lbl">WhatsApp</div></div>
-      <div class="share-item"><div class="share-icon">📸</div><div class="share-lbl">Instagram</div></div>
-      <div class="share-item"><div class="share-icon">✉️</div><div class="share-lbl">Email</div></div>
-      <div class="share-item"><div class="share-icon">🔗</div><div class="share-lbl">Copy link</div></div>
+      <div class="share-item"><div class="share-icon">&#128172;</div><div class="share-lbl">WhatsApp</div></div>
+      <div class="share-item"><div class="share-icon">&#128248;</div><div class="share-lbl">Instagram</div></div>
+      <div class="share-item"><div class="share-icon">&#9993;</div><div class="share-lbl">Email</div></div>
+      <div class="share-item"><div class="share-icon">&#128279;</div><div class="share-lbl">Copy link</div></div>
     </div>
     <div class="link-row">
       <span class="link-text">getouta.app/plan/london-xyz</span>
@@ -836,8 +540,11 @@ body {
 </div>
 
 <script>
-let step = 1, vibes = [], groupSize = 2, budget = '', timing = '';
+const SUPABASE_URL = "https://wzldwcbixzzrvqybtzng.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6bGR3Y2JpeHp6cnZxeWJ0em5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjIyODEsImV4cCI6MjA5MjkzODI4MX0.5lwtmD9A6oY6CXuDHN7hphdtiFPoVlOxsO4kWXtctpw";
 const MAPS_KEY = 'AIzaSyDdBw55GNMJna62gTLQQjNys9k0PZlM_Ac';
+
+let step=1, vibes=[], groupSize=2, budget='', timing='', customTime='', aiNotes=[];
 
 setTimeout(() => showScreen('onboarding'), 2000);
 
@@ -850,192 +557,276 @@ function goPlanner() { showScreen('planner'); setStep(1); }
 
 function setStep(n) {
   step = n;
-  for (let i = 1; i <= 4; i++) document.getElementById('s' + i).style.display = i === n ? 'block' : 'none';
-  document.getElementById('step-label').textContent = n + ' of 4';
-  document.getElementById('progress').style.width = (n / 4 * 100) + '%';
-  const qs = ["What's the vibe?", "Who's coming?", "When and budget?", "Final details"];
-  document.getElementById('planner-q').textContent = qs[n - 1];
-  document.getElementById('next-btn').textContent = n < 4 ? 'Continue' : 'Generate my plan';
+  for (let i=1;i<=4;i++) document.getElementById('s'+i).style.display = i===n?'block':'none';
+  document.getElementById('step-label').textContent = n+' of 4';
+  document.getElementById('progress').style.width = (n/4*100)+'%';
+  const qs = ["What's the vibe?","Who's coming?","When and budget?","Final details"];
+  document.getElementById('planner-q').textContent = qs[n-1];
+  document.getElementById('next-btn').textContent = n<4?'Continue':'Generate my plan';
 }
 
-function nextStep() { if (step < 4) setStep(step + 1); else generateItinerary(); }
-function prevStep() { if (step > 1) setStep(step - 1); else showScreen('onboarding'); }
+function nextStep() { if(step<4) setStep(step+1); else generateItinerary(); }
+function prevStep() { if(step>1) setStep(step-1); else showScreen('onboarding'); }
 
-function toggleVibe(el, v) {
+function toggleVibe(el,v) {
   el.classList.toggle('selected');
-  vibes = vibes.includes(v) ? vibes.filter(x => x !== v) : [...vibes, v];
+  vibes = vibes.includes(v) ? vibes.filter(x=>x!==v) : [...vibes,v];
 }
 
 function changeCount(d) {
-  groupSize = Math.max(1, Math.min(20, groupSize + d));
+  groupSize = Math.max(1,Math.min(20,groupSize+d));
   document.getElementById('count-val').textContent = groupSize;
 }
 
-function toggleChip(el, single = false) {
-  if (single) el.closest('.chip-wrap').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+function toggleChip(el, single=false) {
+  if(single) el.closest('.chip-wrap').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
   el.classList.toggle('selected');
 }
 
 function selectOption(el) {
-  el.closest('.option-list').querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
+  el.closest('.option-list').querySelectorAll('.option-item').forEach(o=>o.classList.remove('selected'));
   el.classList.add('selected');
   timing = el.querySelector('.option-text').textContent;
+  customTime = '';
 }
 
-function selectBudget(el, val) {
-  document.querySelectorAll('.budget-tile').forEach(b => b.classList.remove('selected'));
+function customTimeSet() {
+  const from = document.getElementById('time-from').value;
+  const to = document.getElementById('time-to').value;
+  if(from && to) {
+    customTime = `${from} to ${to}`;
+    timing = '';
+    document.querySelectorAll('.option-item').forEach(o=>o.classList.remove('selected'));
+  }
+}
+
+function selectBudget(el,val) {
+  document.querySelectorAll('.budget-tile').forEach(b=>b.classList.remove('selected'));
   el.classList.add('selected');
   budget = val;
 }
 
+function sendAiMsg() {
+  const input = document.getElementById('ai-input');
+  const msg = input.value.trim();
+  if(!msg) return;
+  aiNotes.push(msg);
+  const msgs = document.getElementById('ai-messages');
+  msgs.innerHTML += `<div class="ai-msg user-msg">${msg}</div>`;
+  msgs.innerHTML += `<div class="ai-msg">Got it — I'll factor that in when building your plan.</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+}
+
+async function fetchVenues() {
+  const halal = [...document.querySelectorAll('#s2 .chip.selected')].some(c=>c.textContent==='Halal');
+  const kosher = [...document.querySelectorAll('#s2 .chip.selected')].some(c=>c.textContent==='Kosher');
+  const location = document.querySelector('#s4 .chip.selected')?.textContent || '';
+  const areaMap = {
+    'North London':'Camden,Islington,Hackney,Highgate,Finsbury Park,Stoke Newington,Dalston',
+    'East London':'Shoreditch,Bethnal Green,Hackney,Stratford,Walthamstow,Spitalfields,London Fields',
+    'South London':'Brixton,Peckham,Clapham,Borough,Bermondsey,Greenwich,Lewisham,Herne Hill',
+    'West London':'Notting Hill,Chelsea,Fulham,Chiswick,Richmond,Hammersmith,Kensington',
+    'Central London':'Mayfair,Soho,Covent Garden,Fitzrovia,Marylebone,Westminster,Knightsbridge'
+  };
+  let url = `${SUPABASE_URL}/rest/v1/venues?active=eq.true&limit=60`;
+  if(halal) url += `&halal=eq.true`;
+  try {
+    const res = await fetch(url, {headers:{'apikey':SUPABASE_ANON,'Authorization':`Bearer ${SUPABASE_ANON}`}});
+    const all = await res.json();
+    const areaFilter = areaMap[location];
+    if(areaFilter && !location.includes('Anywhere')) {
+      const areas = areaFilter.split(',').map(a=>a.toLowerCase());
+      const filtered = all.filter(v=>areas.some(a=>(v.area||'').toLowerCase().includes(a)));
+      return filtered.length>=5 ? filtered : all;
+    }
+    return all;
+  } catch(e) { return []; }
+}
+
 async function generateItinerary() {
   showScreen('loading');
-  const dietary = [...document.querySelectorAll('#s2 .chip.selected')].map(c => c.textContent).join(', ') || 'none';
+  const dietary = [...document.querySelectorAll('#s2 .chip.selected')].map(c=>c.textContent).join(', ') || 'none';
   const location = document.querySelector('#s4 .chip.selected')?.textContent || 'Anywhere in London';
-  const notes = document.getElementById('notes').value;
+  const timeStr = customTime || timing || 'evening';
   const vibeStr = vibes.length ? vibes.join(', ') : 'casual, fun';
+  const notesStr = aiNotes.join('. ') || 'none';
 
-  const statuses = ['Finding the best spots', 'Checking availability', 'Matching your vibe', 'Building the route', 'Almost there'];
-  let si = 0;
-  const interval = setInterval(() => {
-    document.getElementById('load-status').textContent = statuses[++si % statuses.length];
-  }, 1800);
+  const statuses = ['Searching your venues','Checking the database','Matching your vibe','Building the route','Almost there'];
+  let si=0;
+  const interval = setInterval(()=>{
+    document.getElementById('load-status').textContent = statuses[++si%statuses.length];
+  },1800);
+
+  const venues = await fetchVenues();
+  const venueCtx = venues.slice(0,40).map(v=>
+    `${v.name} (${v.area}) | ${v.category} | Vibe: ${v.vibe_tags} | Best for: ${v.best_for} | Price: ${v.price_range} | Halal: ${v.halal} | ${v.notes}`
+  ).join('\n');
 
   const prompt = `You are GetOuta, a London activity planner for 18-25 year olds.
-Create a ${timing || 'evening'} itinerary for ${groupSize} people in London.
-Vibe: ${vibeStr}. Budget: ${budget || 'mid'} per person. Dietary: ${dietary}. Location: ${location}. Notes: ${notes || 'none'}.
-Return ONLY a valid JSON array of exactly 3 stops:
-[{"time":"7:00 PM","name":"Exact venue name","area":"Neighbourhood, London","address":"Full street address, London","description":"2 sentences on what to do and why it fits the vibe","tags":["tag1","tag2","tag3"]}]
-Use real currently open London venues. Return ONLY the JSON array, no markdown, no explanation.`;
+Create an itinerary for ${groupSize} people.
+Vibe: ${vibeStr}, Time: ${timeStr}, Budget: ${budget||'mid'} per person
+Dietary: ${dietary}, Location: ${location}
+Special requests: ${notesStr}
+
+AVAILABLE VENUES FROM GETOUTA DATABASE:
+${venueCtx || 'Use your knowledge of London venues'}
+
+Pick exactly 3 venues. Prioritise venues from the database. For each stop give a realistic duration in minutes.
+
+Return ONLY a valid JSON array:
+[{"time":"7:00 PM","duration_mins":90,"name":"Venue name","area":"Neighbourhood, London","address":"Full street address, London","description":"2 sentences why it fits","tags":["tag1","tag2","tag3"],"category":"restaurant"}]
+Category must be: restaurant, bar, activity, cafe, cinema, or outdoor
+Return ONLY the JSON array.`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': '',
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1200,
-        messages: [{ role: 'user', content: prompt }]
-      })
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':'','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1200,messages:[{role:'user',content:prompt}]})
     });
     const data = await res.json();
     clearInterval(interval);
-    const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
-    const stops = JSON.parse(text.replace(/```json|```/g, '').trim());
-    renderResults(stops, vibeStr);
-  } catch (e) {
+    const text = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
+    const stops = JSON.parse(text.replace(/```json|```/g,'').trim());
+    renderResults(stops,vibeStr,timeStr);
+  } catch(e) {
     clearInterval(interval);
-    renderResults([
-      { time: "6:00 PM", name: "Dishoom Shoreditch", area: "Shoreditch", address: "7 Boundary St, London E2 7JE", description: "Start with iconic Bombay-style small plates in a stunning converted warehouse. The buzzing atmosphere sets the perfect tone.", tags: ["Food", "Trendy", "££"] },
-      { time: "8:30 PM", name: "Boxpark Shoreditch", area: "Shoreditch", address: "2-10 Bethnal Green Rd, London E1 6GY", description: "Explore pop-up bars and street food in this iconic shipping container venue. Great for drinks and relaxed mingling.", tags: ["Drinks", "Casual", "£"] },
-      { time: "10:30 PM", name: "XOYO", area: "Shoreditch", address: "32-37 Cowper St, London EC2A 4AP", description: "End the night at one of London's best club venues with quality DJ sets across two floors.", tags: ["Club", "Music", "££"] }
-    ], vibeStr);
+    if(venues.length>=3) {
+      const picks = venues.slice(0,3).map((v,i)=>({
+        time:['6:00 PM','7:30 PM','9:00 PM'][i],
+        duration_mins:[90,75,60][i],
+        name:v.name, area:v.area||'', address:v.address||'',
+        description:v.notes||`${v.best_for||'Great spot'}. ${v.must_try?'Must try: '+v.must_try:''}`,
+        tags:(v.vibe_tags||'').split(',').slice(0,3).map(t=>t.trim()).filter(Boolean),
+        category:(v.category||'restaurant').toLowerCase().split('/')[0].trim()
+      }));
+      renderResults(picks,vibeStr,timeStr);
+    } else {
+      renderResults([
+        {time:"6:00 PM",duration_mins:90,name:"Dishoom Shoreditch",area:"Shoreditch",address:"7 Boundary St, London E2 7JE",description:"Iconic Bombay cafe vibes. Legendary black dhal and bacon naan.",tags:["Food","Trendy","Halal"],category:"restaurant"},
+        {time:"8:00 PM",duration_mins:75,name:"Flight Club Shoreditch",area:"Shoreditch",address:"57 Bethnal Green Rd, London E1 6LA",description:"Social darts and cocktails. Incredibly fun for any group.",tags:["Activity","Fun","Drinks"],category:"activity"},
+        {time:"10:00 PM",duration_mins:60,name:"XOYO",area:"Shoreditch",address:"32-37 Cowper St, London EC2A 4AP",description:"One of London's best clubs with quality DJ sets.",tags:["Club","Music","Night out"],category:"bar"}
+      ],vibeStr,timeStr);
+    }
   }
 }
 
-function renderResults(stops, vibeStr) {
-  document.getElementById('results-meta').textContent = `London · ${timing || 'Tonight'}`;
-  document.getElementById('results-tags').innerHTML = vibeStr.split(',').map(v => `<span class="tag">${v.trim()}</span>`).join('');
-  document.getElementById('stop-cards').innerHTML = stops.map((s, i) => `
-    <div class="stop-card" style="animation-delay:${i * 0.12}s">
+// SVG covers per category
+const covers = {
+  restaurant: `<svg viewBox="0 0 430 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect width="430" height="100" fill="#f9f0f1"/><circle cx="50" cy="50" r="60" fill="#e8c4c9" opacity="0.5"/><circle cx="380" cy="30" r="70" fill="#d4a0a8" opacity="0.35"/><circle cx="200" cy="80" r="50" fill="#e8c4c9" opacity="0.3"/><rect x="170" y="30" width="90" height="40" rx="8" fill="#7c1f2e" opacity="0.07"/></svg>`,
+  bar: `<svg viewBox="0 0 430 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect width="430" height="100" fill="#f0f0f9"/><circle cx="80" cy="50" r="65" fill="#c4c4e8" opacity="0.4"/><circle cx="350" cy="40" r="55" fill="#a0a0d4" opacity="0.3"/><circle cx="210" cy="70" r="40" fill="#c4c4e8" opacity="0.25"/></svg>`,
+  activity: `<svg viewBox="0 0 430 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect width="430" height="100" fill="#f0f7f0"/><circle cx="60" cy="50" r="60" fill="#a8d4a8" opacity="0.4"/><circle cx="370" cy="35" r="65" fill="#80c080" opacity="0.3"/><rect x="180" y="20" width="70" height="60" rx="12" fill="#2d7a2d" opacity="0.07" transform="rotate(15 215 50)"/></svg>`,
+  cafe: `<svg viewBox="0 0 430 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect width="430" height="100" fill="#fdf3e8"/><circle cx="70" cy="45" r="58" fill="#d4b898" opacity="0.4"/><circle cx="360" cy="55" r="60" fill="#c4a880" opacity="0.3"/><circle cx="215" cy="20" r="45" fill="#d4b898" opacity="0.25"/></svg>`,
+  cinema: `<svg viewBox="0 0 430 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect width="430" height="100" fill="#f5f0fa"/><circle cx="60" cy="50" r="62" fill="#c4a8d4" opacity="0.4"/><circle cx="370" cy="40" r="55" fill="#a880c4" opacity="0.3"/><circle cx="215" cy="75" r="40" fill="#c4a8d4" opacity="0.25"/></svg>`,
+  outdoor: `<svg viewBox="0 0 430 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><rect width="430" height="100" fill="#f0f9f5"/><circle cx="50" cy="60" r="65" fill="#a8d4bc" opacity="0.4"/><circle cx="380" cy="45" r="58" fill="#80c4a0" opacity="0.3"/><ellipse cx="215" cy="80" rx="120" ry="30" fill="#a8d4bc" opacity="0.2"/></svg>`
+};
+
+function renderResults(stops, vibeStr, timeStr) {
+  document.getElementById('results-meta').textContent = `London \u00b7 ${timeStr}`;
+  document.getElementById('results-tags').innerHTML = vibeStr.split(',').map(v=>`<span class="tag">${v.trim()}</span>`).join('');
+
+  document.getElementById('stop-cards').innerHTML = stops.map((s,i)=>{
+    const cat = (s.category||'restaurant').toLowerCase().replace(/[^a-z]/g,'');
+    const coverSvg = covers[cat] || covers.restaurant;
+    const endTime = s.time && s.duration_mins ? calcEndTime(s.time, s.duration_mins) : '';
+    const durLabel = s.duration_mins ? `~${s.duration_mins} mins` : '';
+    return `<div class="stop-card" style="animation-delay:${i*0.12}s">
+      <div class="stop-cover">${coverSvg}<div class="stop-cover-label">${s.area||'London'}</div></div>
       <div class="stop-accent"></div>
       <div class="stop-body">
-        <div class="stop-time">${s.time}</div>
+        <div class="stop-time-row">
+          <div class="stop-time">${s.time}${endTime?' \u2013 '+endTime:''}</div>
+          ${durLabel?`<div class="stop-duration">${durLabel}</div>`:''}
+        </div>
         <div class="stop-name">${s.name}</div>
         <div class="stop-area">${s.area}</div>
         <div class="stop-desc">${s.description}</div>
-        <div class="stop-tags">${s.tags.map(t => `<span class="stop-tag">${t}</span>`).join('')}</div>
+        <div class="stop-tags">${(s.tags||[]).map(t=>`<span class="stop-tag">${t}</span>`).join('')}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
   loadMap(stops);
   showScreen('results');
 }
 
+function calcEndTime(startTime, mins) {
+  try {
+    const [time,ampm] = startTime.split(' ');
+    let [h,m] = time.split(':').map(Number);
+    if(ampm==='PM'&&h!==12) h+=12;
+    if(ampm==='AM'&&h===12) h=0;
+    const total = h*60+m+mins;
+    let nh = Math.floor(total/60)%24, nm = total%60;
+    const na = nh>=12?'PM':'AM';
+    if(nh>12) nh-=12;
+    if(nh===0) nh=12;
+    return `${nh}:${String(nm).padStart(2,'0')} ${na}`;
+  } catch(e) { return ''; }
+}
+
 function loadMap(stops) {
-  const mapEl = document.getElementById('map');
-  if (!window.google) {
+  if(!window.google) {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&callback=initMap`;
     script.async = true;
     window._pendingStops = stops;
     window.initMap = () => renderGoogleMap(window._pendingStops);
     document.head.appendChild(script);
-  } else {
-    renderGoogleMap(stops);
-  }
+  } else renderGoogleMap(stops);
 }
 
 function renderGoogleMap(stops) {
   const map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: { lat: 51.5074, lng: -0.1278 },
-    styles: [
-      { elementType: 'geometry', stylers: [{ color: '#f8f6f3' }] },
-      { elementType: 'labels.text.fill', stylers: [{ color: '#111111' }] },
-      { elementType: 'labels.text.stroke', stylers: [{ color: '#f8f6f3' }] },
-      { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
-      { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#eeebe7' }] },
-      { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#d4e4f0' }] },
-      { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-      { featureType: 'transit', stylers: [{ visibility: 'off' }] }
+    zoom:13, center:{lat:51.5074,lng:-0.1278},
+    styles:[
+      {elementType:'geometry',stylers:[{color:'#f8f6f3'}]},
+      {elementType:'labels.text.fill',stylers:[{color:'#111111'}]},
+      {featureType:'road',elementType:'geometry',stylers:[{color:'#ffffff'}]},
+      {featureType:'road',elementType:'geometry.stroke',stylers:[{color:'#eeebe7'}]},
+      {featureType:'water',elementType:'geometry',stylers:[{color:'#d4e4f0'}]},
+      {featureType:'poi',stylers:[{visibility:'off'}]},
+      {featureType:'transit',stylers:[{visibility:'off'}]}
     ],
-    disableDefaultUI: true,
-    zoomControl: true
+    disableDefaultUI:true, zoomControl:true
   });
-
   const geocoder = new google.maps.Geocoder();
   const bounds = new google.maps.LatLngBounds();
   const positions = [];
-
-  stops.forEach((stop, i) => {
-    geocoder.geocode({ address: stop.address }, (results, status) => {
-      if (status !== 'OK') return;
+  stops.forEach((stop,i) => {
+    geocoder.geocode({address: stop.address||(stop.name+', London')},(results,status)=>{
+      if(status!=='OK') return;
       const pos = results[0].geometry.location;
-      bounds.extend(pos);
-      positions[i] = pos;
-
-      new google.maps.Marker({
-        position: pos, map,
-        label: { text: String(i + 1), color: '#ffffff', fontFamily: 'Plus Jakarta Sans', fontWeight: '700', fontSize: '12px' },
-        icon: { path: google.maps.SymbolPath.CIRCLE, scale: 16, fillColor: '#7c1f2e', fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 2 }
+      bounds.extend(pos); positions[i]=pos;
+      new google.maps.Marker({position:pos,map,
+        label:{text:String(i+1),color:'#ffffff',fontFamily:'Plus Jakarta Sans',fontWeight:'700',fontSize:'12px'},
+        icon:{path:google.maps.SymbolPath.CIRCLE,scale:16,fillColor:'#7c1f2e',fillOpacity:1,strokeColor:'#ffffff',strokeWeight:2}
       });
-
       map.fitBounds(bounds);
-
-      if (positions.filter(Boolean).length === stops.length && stops.length > 1) {
-        const renderer = new google.maps.DirectionsRenderer({
-          map, suppressMarkers: true,
-          polylineOptions: { strokeColor: '#7c1f2e', strokeWeight: 2, strokeOpacity: 0.6 }
-        });
-        new google.maps.DirectionsService().route({
-          origin: positions[0],
-          destination: positions[positions.length - 1],
-          waypoints: positions.slice(1, -1).map(p => ({ location: p, stopover: false })),
-          travelMode: google.maps.TravelMode.WALKING
-        }, (result, s) => { if (s === 'OK') renderer.setDirections(result); });
+      if(positions.filter(Boolean).length===stops.length&&stops.length>1){
+        const dir=new google.maps.DirectionsService();
+        const render=new google.maps.DirectionsRenderer({map,suppressMarkers:true,polylineOptions:{strokeColor:'#7c1f2e',strokeWeight:2,strokeOpacity:0.6}});
+        dir.route({origin:positions[0],destination:positions[positions.length-1],waypoints:positions.slice(1,-1).map(p=>({location:p,stopover:false})),travelMode:google.maps.TravelMode.WALKING},(result,s)=>{if(s==='OK')render.setDirections(result);});
       }
     });
   });
 }
 
 function openShare() { document.getElementById('share-overlay').classList.add('open'); }
-function closeShare(e) { if (e.target.classList.contains('overlay')) document.getElementById('share-overlay').classList.remove('open'); }
+function closeShare(e) { if(e.target.classList.contains('overlay')) document.getElementById('share-overlay').classList.remove('open'); }
 function copyLink() {
   navigator.clipboard.writeText('https://getouta.app/plan/london-xyz');
-  document.querySelector('.copy-btn').textContent = 'Copied';
-  setTimeout(() => document.querySelector('.copy-btn').textContent = 'Copy', 2000);
+  document.querySelector('.copy-btn').textContent='Copied';
+  setTimeout(()=>document.querySelector('.copy-btn').textContent='Copy',2000);
 }
 
 function resetApp() {
-  vibes = []; groupSize = 2; budget = ''; timing = '';
-  document.getElementById('notes').value = '';
-  document.querySelectorAll('.vibe-tile.selected,.chip.selected,.budget-tile.selected,.option-item.selected').forEach(el => el.classList.remove('selected'));
-  document.getElementById('count-val').textContent = '2';
+  vibes=[];groupSize=2;budget='';timing='';customTime='';aiNotes=[];
+  document.querySelectorAll('.vibe-tile.selected,.chip.selected,.budget-tile.selected,.option-item.selected').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('count-val').textContent='2';
+  document.getElementById('ai-messages').innerHTML='<div class="ai-msg">Tell me anything specific — celebrating something? Need somewhere accessible? Want a hidden gem? I\'ll personalise the plan.</div>';
+  document.getElementById('ai-input').value='';
   goPlanner();
 }
 </script>
